@@ -692,3 +692,61 @@ button:disabled{cursor:not-allowed;opacity:.55}
 @media(max-width:560px){
   footer{padding-bottom:86px}
 }
+
+/* RAW FORM CUSTOM DROPDOWNS ------------------------------------------------ */
+.brutalSelect{position:relative;min-width:0;color:var(--ink);isolation:isolate}
+.brutalSelect.isOpen{z-index:65}
+.brutalSelectTrigger{width:100%;border:0;border-radius:0;background:transparent;color:inherit;display:flex;align-items:center;justify-content:space-between;gap:18px;text-align:left;cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease)}
+.brutalSelectTrigger:disabled{cursor:not-allowed;opacity:.42}
+.brutalSelectValue{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brutalSelectIcon{width:28px;height:28px;flex:0 0 28px;display:grid;place-items:center;border:1px solid var(--ink);transition:transform .3s var(--ease),background .2s,color .2s}
+.brutalSelect.isOpen .brutalSelectIcon{transform:rotate(180deg);background:var(--red);border-color:var(--red);color:#fff}
+
+.brutalSelect--field{width:100%;margin-top:9px}
+.brutalSelect--field .brutalSelectTrigger{min-height:54px;padding:12px 0 11px;border-bottom:1px solid var(--ink);font-size:18px;font-weight:500;letter-spacing:-.015em}
+.brutalSelect--field .brutalSelectTrigger:hover,.brutalSelect--field.isOpen .brutalSelectTrigger{border-bottom-color:var(--red);background:rgba(255,255,255,.18)}
+
+.brutalSelect--compact{min-width:138px}
+.brutalSelect--compact .brutalSelectTrigger{min-height:37px;padding:8px 8px 8px 11px;border:1px solid var(--line-strong);background:rgba(228,226,221,.78);font-size:8px;font-weight:900;letter-spacing:.08em}
+.brutalSelect--compact .brutalSelectIcon{width:20px;height:20px;flex-basis:20px;border:0;background:var(--ink);color:var(--base)}
+.brutalSelect--compact.isOpen .brutalSelectTrigger,.brutalSelect--compact .brutalSelectTrigger:hover{border-color:var(--ink);background:var(--paper)}
+.brutalSelect--compact.isOpen .brutalSelectIcon{background:var(--red);color:#fff}
+
+.brutalSelect--crm{width:100%;margin-top:7px}
+.brutalSelect--crm .brutalSelectTrigger{min-height:39px;padding:8px 9px 8px 11px;border:1px solid var(--line-strong);font-size:10px;font-weight:800;letter-spacing:.035em;background:rgba(255,255,255,.1)}
+.brutalSelect--crm .brutalSelectIcon{width:22px;height:22px;flex-basis:22px;border:0;background:var(--ink);color:var(--base)}
+
+.brutalSelectMenuWrap{position:absolute;left:0;top:calc(100% + 7px);width:max(100%,230px);background:var(--paper);border:1px solid var(--ink);box-shadow:8px 8px 0 var(--ink);z-index:90;animation:dropdownIn .24s var(--ease) both}
+.brutalSelectMenuWrap::before{content:"";position:absolute;left:-1px;right:-1px;top:-1px;height:4px;background:var(--red)}
+.brutalSelectRule{height:34px;padding:8px 10px 7px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--ink);font-size:7px;font-weight:900;letter-spacing:.13em;color:var(--muted)}
+.brutalSelectRule span:first-child{color:var(--red)}
+.brutalSelectMenu{max-height:286px;overflow-y:auto;overscroll-behavior:contain;padding:0;background:var(--paper)}
+.brutalSelectMenu::-webkit-scrollbar{width:6px}
+.brutalSelectMenu::-webkit-scrollbar-track{background:var(--base)}
+.brutalSelectMenu::-webkit-scrollbar-thumb{background:var(--red)}
+.brutalSelectOption{width:100%;min-height:48px;padding:0 10px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;color:var(--ink);display:grid;grid-template-columns:30px minmax(0,1fr) 24px;align-items:center;gap:8px;text-align:left;cursor:pointer;transition:background .15s,color .15s,transform .2s var(--ease)}
+.brutalSelectOption:last-child{border-bottom:0}
+.brutalSelectOption:hover,.brutalSelectOption:focus-visible{background:var(--orange);color:var(--ink);outline:0;transform:translateX(3px)}
+.brutalSelectOption.selected{background:var(--red);color:#fff}
+.brutalSelectOption.selected:hover,.brutalSelectOption.selected:focus-visible{background:var(--red);color:#fff}
+.brutalSelectIndex{font-size:7px;font-weight:900;letter-spacing:.08em;opacity:.58}
+.brutalSelectOptionLabel{font-size:11px;font-weight:900;letter-spacing:.045em;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brutalSelectCheck{display:grid;place-items:center}
+.brutalSelect--field .brutalSelectOptionLabel{text-transform:none;font-size:12px;letter-spacing:.02em}
+.brutalSelect--field .brutalSelectMenuWrap{width:100%}
+.brutalSelect--compact .brutalSelectMenuWrap{min-width:210px;width:max(100%,210px);right:0;left:auto}
+.brutalSelect--compact .brutalSelectOption{min-height:42px}
+.brutalSelect--compact .brutalSelectOptionLabel{font-size:9px;letter-spacing:.07em}
+.brutalSelect--crm .brutalSelectMenuWrap{width:100%;min-width:230px}
+.brutalSelect.isDisabled{pointer-events:none;opacity:.52}
+
+@keyframes dropdownIn{from{opacity:0;transform:translateY(-8px) scaleY(.96);transform-origin:top}to{opacity:1;transform:translateY(0) scaleY(1)}}
+
+@media(max-width:760px){
+  .brutalSelectMenuWrap{position:absolute;width:100%!important;min-width:0!important;left:0!important;right:auto!important;box-shadow:6px 6px 0 var(--ink)}
+  .brutalSelect--field .brutalSelectTrigger{font-size:16px;min-height:51px}
+  .brutalSelect--compact{width:100%;min-width:0}
+  .brutalSelect--compact .brutalSelectTrigger{width:100%}
+  .leadToolbar>div>.brutalSelect{min-width:0;width:100%}
+  .leadToolbar>div>.brutalSelect:nth-of-type(3){grid-column:2/-1}
+}

@@ -1,13 +1,13 @@
 # Workspace backend already created for this build
 
 Google Drive folder:
-`Creaionx Property Leads`
+`Blueprint Buddies Leads`
 
 Google Drive folder ID:
 `1mYoOco3kFsptGJnZQDQskXgTbt3adVfK`
 
 Google operations spreadsheet:
-`Creaionx Property Leads - Operations`
+`Blueprint Buddies Leads - Operations`
 
 Spreadsheet ID:
 `1DvajQkY32INMAUvrw4Fd7dEKR_pFeJQXBkEHaG-e3uw`

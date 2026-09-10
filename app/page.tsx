@@ -53,7 +53,7 @@ export default function Home(){
       <div className="differenceHead"><p className="eyebrow">WHY THIS FEELS DIFFERENT</p><h2>START WITH<br/><span>DEMAND.</span></h2></div>
       <div className="differenceGrid">
         <article className="differenceMuted"><span>OLD FLOW</span><h3>LISTINGS → SCROLL → MESSAGE → REPEAT.</h3><p>Consumers bounce between posts, portals and agents while repeating the same requirement again and again.</p></article>
-        <article className="differenceAccent"><span>CREAIONX FLOW</span><h3>REQUIREMENT → MATCH → REALTOR.</h3><p>One structured brief carries the market, budget, property type and timeframe into the matching process.</p></article>
+        <article className="differenceAccent"><span>BLUEPRINT FLOW</span><h3>REQUIREMENT → MATCH → REALTOR.</h3><p>One structured brief carries the market, budget, property type and timeframe into the matching process.</p></article>
       </div>
       <div className="differenceSignals"><div><LockKeyhole/><span><strong>PRIVATE</strong>Contact details stay protected.</span></div><div><MapPinned/><span><strong>LOCAL</strong>Matching begins with territory.</span></div><div><Workflow/><span><strong>TRACKABLE</strong>Realtors manage follow-up in one pipeline.</span></div></div>
     </section>

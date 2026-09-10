@@ -34,9 +34,9 @@ export function Nav() {
   return (
     <>
       <nav className={`nav ${scrolled ? "navScrolled" : ""}`} aria-label="Primary navigation">
-        <Link className="brand" href="/" aria-label="CREAIONX Property home">
+        <Link className="brand" href="/" aria-label="Blueprint Buddies home">
           <span className="brandDot" aria-hidden="true" />
-          <span className="brandWords">CREAIONX <b>PROPERTY</b></span>
+          <span className="brandWords">BLUEPRINT <b>BUDDIES</b></span>
           <small>BETA</small>
         </Link>
 
@@ -58,7 +58,7 @@ export function Nav() {
 
       <div id="mobile-menu" className={`mobileMenu ${open ? "open" : ""}`} aria-hidden={!open}>
         <div className="mobileMenuInner">
-          <div className="mobileMenuHead"><p className="eyebrow">NAVIGATION</p><span>CREAIONX / PROPERTY</span></div>
+          <div className="mobileMenuHead"><p className="eyebrow">NAVIGATION</p><span>BLUEPRINT / BUDDIES</span></div>
           <div className="mobileMenuLinks">
             <Link href="/"><span>00</span>HOME<ArrowUpRight/></Link>
             {LINKS.map(([label, href], i) => (

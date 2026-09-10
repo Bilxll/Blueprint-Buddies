@@ -1,4 +1,4 @@
-# CREAIONX PROPERTY — Beta MVP
+# BLUEPRINT BUDDIES — Beta MVP
 
 A Pakistan-first property-demand marketplace connecting structured buyer/seller/investor/renter requirements with verified realtors by city and territory.
 

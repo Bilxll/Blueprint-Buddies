@@ -1,3 +1,5 @@
+@import url("https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=satoshi@400,500,700,900&display=swap");
+
 :root{
   --base:#E4E2DD;
   --paper:#EEECE7;
@@ -749,4 +751,452 @@ button:disabled{cursor:not-allowed;opacity:.55}
   .brutalSelect--compact .brutalSelectTrigger{width:100%}
   .leadToolbar>div>.brutalSelect{min-width:0;width:100%}
   .leadToolbar>div>.brutalSelect:nth-of-type(3){grid-column:2/-1}
+}
+
+
+/* =========================================================
+   TYPOGRAPHY + SPACING SYSTEM — BLUEPRINT BUDDIES
+   Global rhythm pass. Keeps Raw Form brutalism while making
+   the product calmer, more readable and more consistent.
+   ========================================================= */
+:root{
+  --font-display:"Clash Display","Arial Black","Helvetica Neue",Arial,sans-serif;
+  --font-body:"Satoshi","Helvetica Neue",Arial,sans-serif;
+  --page:clamp(18px,4vw,64px);
+  --content-max:1600px;
+  --measure:66ch;
+  --section-y:clamp(76px,8vw,128px);
+  --section-y-tight:clamp(52px,6vw,92px);
+  --space-1:6px;
+  --space-2:10px;
+  --space-3:14px;
+  --space-4:20px;
+  --space-5:28px;
+  --space-6:40px;
+  --space-7:56px;
+  --space-8:80px;
+  --display-track:-.055em;
+  --display-leading:.84;
+  --body-leading:1.58;
+  --label-track:.105em;
+}
+
+html{font-size:16px}
+body{font-family:var(--font-body);font-size:16px;line-height:var(--body-leading);letter-spacing:-.008em;text-rendering:optimizeLegibility}
+button,input,textarea{font-family:var(--font-body)}
+p{max-width:var(--measure);text-wrap:pretty}
+h1,h2,h3,h4{font-family:var(--font-display);text-wrap:balance;font-kerning:normal}
+.hero h1,.realtorHero h1,.pageHero h1,.innerHero h1,.cityHero h1,.legalHero h1,.splitPage h1,.loginPage h1,.dashboardShell h1,.adminHero h1,.finalCta h2,
+.sectionTitle,.campaignMain h2,.processRow h2,.splitStatement h2,.marketCard h2,.areaHeader h2,.previewCopy h2,.featureGrid h2,.realtorJourney h2,.beforeAfter h2,.betaBanner h2,.manifesto h2,.principles h3,.legalBody h2,.pendingBox h2,.sectionLine h2,.leadCard h3,.claimedLeadTitle h3,.differenceHead h2,.differenceGrid h3,.successPanel h2,.formStageHead h2,.loginFormHead h2,.typeChoice strong,.briefMove strong,.footerBrand{
+  font-family:var(--font-display);
+  letter-spacing:var(--display-track);
+}
+.hero h1,.realtorHero h1,.pageHero h1,.innerHero h1,.cityHero h1,.legalHero h1,.splitPage h1,.loginPage h1,.dashboardShell h1,.adminHero h1,.finalCta h2{line-height:var(--display-leading)}
+.eyebrow,.heroTag,.betaStamp,.stepCounter,.stepTrack button,.signupProgress button,.portalLink,.navAction,.textArrow,.secondaryLink,.moveArrow,.statusPill,.verifiedLabel,.previewLabel,.leadTop,.dashboardStats span,.dashboardTabs button,.leadFeedback>span,.crmControls label,.formGrid label,.fullField,.loginForm label,.realtorForm label,.choiceField>span{
+  letter-spacing:var(--label-track);
+}
+.eyebrow,.heroTag{font-size:11px;line-height:1.2}
+
+/* Navigation rhythm */
+.nav{height:74px;padding-inline:var(--page)}
+.brand{gap:10px;font-size:19px;line-height:1;letter-spacing:-.045em}
+.brandDot{width:9px;height:9px}
+.brand small{font-size:9px;line-height:1;padding:4px 5px;letter-spacing:.11em}
+.navlinks{gap:clamp(18px,2.2vw,34px);font-size:11px;line-height:1;letter-spacing:.105em}
+.navRight{gap:18px}
+.portalLink,.navAction{font-size:10px;line-height:1.15}
+.navAction{padding:13px 15px}
+
+/* Hero hierarchy */
+.hero,.realtorHero{padding:clamp(118px,10vw,148px) var(--page) clamp(46px,5vw,72px);gap:var(--space-6)}
+.hero h1{font-size:clamp(72px,12.8vw,210px);max-width:1450px;line-height:.82;letter-spacing:-.06em}
+.hero h1 em{margin-left:10vw}
+.heroBottom{gap:clamp(30px,5vw,70px)}
+.heroCopyBlock>p,.heroBottom>p{font-size:clamp(16px,1.3vw,19px);line-height:1.58;max-width:560px}
+.heroSignals{gap:7px;margin-top:20px}
+.heroSignals span{font-size:9px;line-height:1.15;padding:8px 10px}
+.heroCtas{gap:22px}
+.heroQuickStart{margin-top:clamp(4px,1vw,14px)}
+.heroQuickStart>span,.heroQuickStart a{font-size:9px;line-height:1.1}
+.scrollCue{font-size:9px}
+
+/* Shared section cadence */
+.moveSection,.campaign,.cities,.realtorPreview,.realtorJourney,.betaBanner,.manifesto,.splitStatement,.areaSection,.demandTypes,.differenceSection{padding-block:var(--section-y);padding-inline:var(--page)}
+.finalCta{padding:var(--section-y) var(--page)}
+.sectionIntro{margin-bottom:clamp(38px,4.2vw,62px);gap:clamp(30px,7vw,110px)}
+.sectionTitle{font-size:clamp(58px,7.6vw,122px);line-height:.84;margin-top:24px}
+.sectionCopy{font-size:clamp(15px,1.15vw,18px);line-height:1.62;max-width:520px}
+.campaign{gap:clamp(42px,7vw,110px)}
+.campaignMain h2{font-size:clamp(60px,7vw,118px);line-height:.85;margin:28px 0 26px}
+.campaignCopy{font-size:16px;line-height:1.62;max-width:570px}
+.campaignLinks>a{padding:21px 0;gap:16px}
+.campaignLinks>a p{font-size:14px;line-height:1.4}
+
+/* Cards and content blocks */
+.moveCard{min-height:350px;padding:clamp(22px,2vw,30px)}
+.moveCard h3{font-size:clamp(52px,4.7vw,80px);line-height:.86;margin:clamp(54px,5vw,76px) 0 18px}
+.moveCard p{font-size:14px;line-height:1.55}
+.proofStrip>div{padding-block:30px;min-height:160px}
+.proofStrip strong{font-size:clamp(24px,2vw,32px);line-height:1}
+.proofStrip p{font-size:12px;line-height:1.45}
+.differenceHead h2{font-size:clamp(64px,7.6vw,124px);line-height:.84}
+.differenceGrid article{padding:clamp(28px,3vw,44px);min-height:360px}
+.differenceGrid h3{font-size:clamp(40px,3.8vw,62px);line-height:.9;margin:clamp(56px,6vw,82px) 0 22px}
+.differenceGrid p{font-size:14px;line-height:1.62}
+.differenceSignals>div{padding:20px}
+.cityRow{padding:20px 0}
+.cityRow h3{font-size:clamp(48px,6vw,100px);line-height:.84;letter-spacing:-.05em}
+.cityRow p{font-size:11px;line-height:1.35}
+.finalCta h2{font-size:clamp(76px,11vw,180px);line-height:.82;margin:32px 0 42px}
+
+/* Buttons */
+.ctaButton{padding:17px 19px;min-width:214px}
+.ctaText{font-size:11px;line-height:1.15;letter-spacing:.085em}
+.nextBtn,.backBtn,.claimBtn,.dashHeaderAside button,.adminRow button,.outlineAction{font-size:10px;line-height:1.15;padding:14px 17px}
+
+/* Footer */
+footer{padding:40px var(--page) 28px}
+.footerTopline{padding-bottom:30px;font-size:10px;line-height:1.25}
+.footerGrid{gap:clamp(26px,4vw,60px)}
+.footerGrid strong{font-size:10px;line-height:1.2;letter-spacing:.11em}
+.footerGrid a{font-size:13px;line-height:1.45}
+.footerGrid p{font-size:13px;line-height:1.55}
+.footerBrand{font-size:clamp(38px,4vw,62px);line-height:.84}
+.footerBottom{margin-top:72px}
+.footerBottom p{font-size:9px;line-height:1.35}
+
+/* Inner/page heroes */
+.pageHero{padding:clamp(126px,11vw,154px) var(--page) clamp(58px,6vw,82px);min-height:58vh}
+.pageHero h1{font-size:clamp(68px,10vw,164px);line-height:.84;margin:24px 0 22px}
+.pageHero>p:last-child{font-size:16px;line-height:1.62;max-width:680px}
+.innerHero,.realtorHero{padding-inline:var(--page)}
+.innerHero h1{font-size:clamp(70px,11.8vw,195px);line-height:.83;margin:28px 0 30px}
+.innerLead{font-size:clamp(16px,1.2vw,19px);line-height:1.62;max-width:700px}
+.processList{padding:var(--space-5) var(--page) var(--section-y)}
+.processRow{grid-template-columns:64px minmax(0,1fr) minmax(280px,.75fr);gap:clamp(26px,4vw,58px);padding:32px 0}
+.processRow h2{font-size:clamp(46px,5vw,84px);line-height:.86}
+.processRow p{font-size:16px;line-height:1.62}
+.splitStatement{gap:clamp(42px,7vw,110px)}
+.splitStatement h2{font-size:clamp(54px,6.5vw,104px);line-height:.86;margin-top:26px}
+.splitStatement>div:last-child>p{font-size:16px;line-height:1.62}
+
+/* Markets/cities */
+.marketGrid{padding:var(--space-5) var(--page) var(--section-y)}
+.marketCard{padding:clamp(26px,2.5vw,34px);min-height:390px}
+.marketCard h2{font-size:clamp(54px,6vw,98px);line-height:.85;margin:clamp(52px,5vw,70px) 0 20px}
+.marketCard p{font-size:14px;line-height:1.55}
+.areaStrip span{font-size:9px;padding:7px 9px}
+.cityHero{padding:clamp(130px,11vw,160px) var(--page) clamp(72px,7vw,100px);min-height:76svh}
+.cityHero h1{font-size:clamp(84px,14.5vw,235px);line-height:.82;margin:28px 0}
+.cityHero>p:last-child{font-size:18px;line-height:1.6;max-width:720px}
+.areaSection{gap:clamp(40px,7vw,110px)}
+.areaHeader h2{font-size:clamp(64px,8vw,128px);line-height:.84;margin:26px 0}
+.areaRow{padding:21px 0}
+.areaRow strong{font-size:17px;line-height:1.35}
+.demandTypeGrid{margin-top:38px}
+.demandTypeGrid>div{padding:24px;min-height:225px}
+.demandTypeGrid h3{font-size:36px;line-height:.9;margin-top:62px}
+
+/* Realtor marketing pages */
+.realtorHero h1{font-size:clamp(70px,10vw,165px);line-height:.83;margin:30px 0}
+.realtorPreview{gap:clamp(42px,7vw,108px)}
+.previewCopy h2{font-size:clamp(56px,6.5vw,102px);line-height:.85;margin:26px 0}
+.previewCopy>p:not(.eyebrow){font-size:16px;line-height:1.62}
+.previewRules{margin-top:28px}
+.previewRules span{font-size:9px;padding:8px 10px}
+.featureGrid article{padding:30px;min-height:315px}
+.featureGrid h2{font-size:38px;line-height:.9;margin:68px 0 18px}
+.featureGrid p{font-size:14px;line-height:1.58}
+.realtorJourney{gap:clamp(42px,7vw,100px)}
+.realtorJourney h2{font-size:clamp(56px,7vw,112px);line-height:.85;margin:26px 0}
+.journeyRows>div{padding:21px 0}
+.journeyRows p{font-size:15px;line-height:1.52}
+.beforeAfter>div{padding-block:clamp(72px,7vw,96px)}
+.beforeAfter h2{font-size:clamp(54px,5.7vw,94px);line-height:.85;margin:26px 0 40px}
+.beforeAfter li{padding:15px 0;font-size:13px;line-height:1.45}
+.betaBanner h2{font-size:clamp(56px,7vw,112px);line-height:.85;margin:26px 0}
+.betaBanner>p:not(.eyebrow){font-size:16px;line-height:1.62}
+
+/* About */
+.manifesto h2{font-size:clamp(54px,6.4vw,100px);line-height:.9;margin:30px 0 56px}
+.manifestoCopy{gap:clamp(34px,6vw,90px)}
+.manifestoCopy p{font-size:17px;line-height:1.68}
+.principles article{padding:26px;min-height:270px}
+.principles h3{font-size:33px;line-height:.9;margin:62px 0 16px}
+.principles p{font-size:13.5px;line-height:1.58}
+
+/* Legal */
+.legalHero{padding:clamp(126px,11vw,154px) var(--page) clamp(58px,6vw,82px)}
+.legalHero h1{font-size:clamp(70px,10.5vw,176px);line-height:.84;margin:26px 0}
+.legalHero>p:last-child{font-size:13px;line-height:1.5}
+.legalBody{max-width:900px;padding:clamp(66px,7vw,96px) var(--page) clamp(90px,9vw,132px)}
+.legalBody h2{font-size:clamp(30px,3vw,40px);line-height:1;margin:58px 0 18px;letter-spacing:-.035em}
+.legalBody p{font-size:16px;line-height:1.76;max-width:72ch}
+.legalNotice{font-size:13px;line-height:1.58;padding:22px}
+
+/* Consumer form / wizard */
+.wizardShell{grid-template-columns:minmax(0,1fr) minmax(300px,350px);gap:clamp(30px,4vw,64px);padding:22px var(--page) var(--section-y)}
+.wizardTop{grid-template-columns:66px 1fr;gap:18px;padding-top:16px}
+.stepCounter,.stepTrack button{font-size:9px;line-height:1.15}
+.stepTrack button{padding-bottom:14px}
+.wizardStage{padding:clamp(42px,5vw,62px) 0 30px;min-height:450px}
+.wizardStage h1{font-size:clamp(52px,6.4vw,96px);line-height:.86;margin:22px 0 clamp(36px,4vw,52px);letter-spacing:-.055em}
+.typeGrid{gap:1px}
+.typeChoice{padding:22px;min-height:220px}
+.typeChoice strong{font-size:42px;line-height:.9;margin-top:48px}
+.typeChoice small{font-size:12px;line-height:1.4}
+.formGrid{gap:24px 34px}
+.formGrid label,.fullField,.loginForm label,.realtorForm label,.choiceField>span{font-size:10.5px;line-height:1.25}
+.formGrid label small,.fullField small,.realtorForm label small{font-size:10px;line-height:1.35}
+.field{margin-top:8px;padding:14px 0 12px;font-size:17px;line-height:1.35}
+.textarea{min-height:118px;line-height:1.55}
+.fieldHint{font-size:10px!important;line-height:1.4}
+.consentLine{font-size:12.5px!important;line-height:1.55!important;margin-top:28px;padding:18px 0}
+.consentLine strong{font-size:9px}
+.privacyNote,.formError,.formNotice{font-size:12px;line-height:1.55}
+.wizardActions,.signupActions{padding-top:18px}
+.briefSummary{top:98px;padding:24px;min-height:420px}
+.briefMove{margin:34px 0 24px}
+.briefMove strong{font-size:42px;line-height:.9}
+.briefSummary dl>div{padding:13px 0}
+.briefSummary dt{font-size:8.5px}
+.briefSummary dd{font-size:13px;line-height:1.42}
+.briefPrivacy p{font-size:10.5px;line-height:1.55}
+.budgetPresets{margin:-10px 0 30px;padding:12px 0}
+.budgetPresets button{font-size:8.5px;padding:8px 10px}
+.successPanel{padding:clamp(88px,9vw,120px) var(--page) clamp(110px,10vw,145px)}
+.successPanel h2{font-size:clamp(52px,7vw,100px);line-height:.86;margin:24px 0}
+.successPanel p{font-size:16px;line-height:1.62}
+.successTimeline{margin:42px 0 40px}
+.successTimeline strong{font-size:27px;line-height:1;margin-top:38px}
+.successTimeline p{font-size:11.5px!important;line-height:1.5!important}
+
+/* Signup / login */
+.splitPage,.loginPage{padding:clamp(118px,10vw,142px) var(--page) var(--section-y-tight);gap:clamp(46px,7vw,110px)}
+.splitPage h1,.loginPage h1{font-size:clamp(64px,7.8vw,124px);line-height:.84;margin:24px 0}
+.largeCopy{font-size:17px;line-height:1.62}
+.formPanel{padding-left:clamp(28px,4vw,64px)}
+.realtorForm,.loginForm{gap:22px}
+.signupProgress button{font-size:9px;line-height:1.2;padding:12px 8px 14px 0}
+.signupStage{padding-top:32px}
+.formStageHead{margin-bottom:34px}
+.formStageHead h2,.loginFormHead h2{font-size:clamp(40px,4vw,64px);line-height:.9;margin:18px 0 14px}
+.formStageHead>p:last-child,.loginFormHead>p:last-child{font-size:13px;line-height:1.58}
+.chipGrid{gap:8px;margin-top:10px}
+.selectChip{font-size:9.5px!important;padding:10px 12px!important}
+.verificationNote{padding:17px;margin-top:26px}
+.verificationNote p{font-size:11.5px;line-height:1.55}
+.joinTrust,.loginBenefits{margin-top:40px}
+.joinTrust>div,.loginBenefits>div{padding:13px 0}
+.joinTrust span,.loginBenefits small{font-size:11.5px;line-height:1.4}
+.loginPanel{padding:clamp(28px,3vw,42px)}
+.loginFormHead{padding-bottom:18px}
+.loginFormHead h2{font-size:clamp(40px,4vw,56px)}
+.loginBenefits strong{font-size:9.5px}
+.loginSwitch,.resetLink{font-size:9.5px}
+
+/* Portals */
+.portalTopbar{height:64px;padding-inline:var(--page)}
+.portalBrand{font-size:18px;line-height:1}
+.portalIdentity{font-size:9.5px}
+.portalTopbar button{font-size:8.5px;padding:9px 11px}
+.dashboardShell,.adminShell{padding:clamp(44px,5vw,64px) var(--page) clamp(84px,8vw,112px)}
+.dashHeader,.adminHero{padding-bottom:26px;gap:34px}
+.dashboardShell h1,.adminHero h1{font-size:clamp(60px,7.4vw,112px);line-height:.85}
+.dashHeaderAside{gap:15px}
+.dashHeaderAside p{font-size:13px;line-height:1.58}
+.notice{font-size:11.5px;line-height:1.4;padding:12px 14px}
+.pendingBox{padding:clamp(38px,5vw,64px)}
+.pendingBox h2{font-size:clamp(50px,5.6vw,86px);line-height:.87;margin:20px 0}
+.pendingBox>p:last-child{font-size:15px;line-height:1.58}
+.dashboardStats article{padding:20px;min-height:148px}
+.dashboardStats span{font-size:8.5px}
+.dashboardStats strong{font-size:48px;line-height:.95;margin-top:16px}
+.dashboardStats p{font-size:10.5px;line-height:1.4}
+.dashboardTabs{margin-top:38px}
+.dashboardTabs button{font-size:9.5px;padding:13px 17px 12px 0;margin-right:24px}
+.sectionLine{padding:46px 0 14px}
+.sectionLine h2{font-size:40px;line-height:.95}
+.sectionLine>span{font-size:9.5px}
+.leadToolbar{padding:13px 0}
+.leadToolbar input,.adminToolbar input{font-size:12.5px;line-height:1.4}
+.leadGrid{gap:14px;padding-top:14px}
+.leadCard{padding:21px;min-height:395px}
+.leadTop{font-size:8.5px}
+.leadLocation>span{font-size:8.5px;margin-top:32px}
+.leadCard h3{font-size:40px;line-height:.88;margin:7px 0 22px}
+.leadMeta{gap:7px;margin-bottom:18px}
+.leadMeta p{font-size:11.5px;line-height:1.4}
+.leadBudget{font-size:15px!important}
+.verifiedText,.mutedText{font-size:9px!important}
+.claimAvailability{font-size:9.5px;padding:10px 0}
+.claimAvailability span{font-size:23px}
+.emptyBox{padding:38px}
+.emptyBox strong{font-size:32px;line-height:1}
+.emptyBox p{font-size:13px;line-height:1.58}
+.claimedRow{gap:34px;padding:24px 0}
+.claimedLeadMain{gap:24px}
+.claimedLeadTitle>span{font-size:8.5px}
+.claimedLeadTitle h3{font-size:31px;line-height:.95}
+.claimedLeadTitle p{font-size:11.5px;line-height:1.45}
+.claimedContact strong{font-size:16px;line-height:1.3}
+.claimedContact a,.claimedContact>span{font-size:9.5px}
+.crmControls label{font-size:8.5px}
+.crmControls textarea{font-size:11px;line-height:1.5}
+.leadFeedback>span,.leadFeedback button{font-size:8.5px}
+.adminRow>div:first-child strong{font-size:14.5px;line-height:1.3}
+.adminRow>div:first-child span{font-size:11.5px;line-height:1.4}
+.adminRow>div:first-child small{font-size:9.5px;line-height:1.35}
+.adminRow button{font-size:8.5px}
+.statusPill,.verifiedLabel{font-size:8.5px}
+
+/* Custom dropdown typography */
+.brutalSelect--field .brutalSelectTrigger{min-height:52px;padding:12px 0 10px;font-size:17px;line-height:1.3;letter-spacing:-.01em}
+.brutalSelect--compact .brutalSelectTrigger{font-size:8.5px;line-height:1.2}
+.brutalSelect--crm .brutalSelectTrigger{font-size:10.5px;line-height:1.25}
+.brutalSelectRule{font-size:7.5px;height:33px}
+.brutalSelectOption{min-height:47px}
+.brutalSelectOptionLabel{font-size:10.5px;line-height:1.25}
+.brutalSelect--field .brutalSelectOptionLabel{font-size:12.5px;line-height:1.35}
+.brutalSelect--compact .brutalSelectOptionLabel{font-size:9.5px}
+
+/* Tablet */
+@media(max-width:900px){
+  :root{--page:18px;--section-y:82px;--section-y-tight:60px}
+  .nav{height:66px}
+  .hero,.realtorHero{padding:104px var(--page) 44px;gap:30px}
+  .hero h1{font-size:clamp(68px,18vw,145px);line-height:.83;letter-spacing:-.055em}
+  .realtorHero h1{font-size:clamp(66px,15vw,130px)}
+  .hero h1 em{margin-left:5vw}
+  .heroCopyBlock>p,.heroBottom>p{font-size:16px;line-height:1.58}
+  .sectionTitle{font-size:clamp(58px,12vw,96px)}
+  .pageHero{padding:112px var(--page) 58px}
+  .pageHero h1{font-size:clamp(62px,14vw,118px)}
+  .innerHero{padding:108px var(--page) 58px}
+  .innerHero h1{font-size:clamp(66px,16vw,132px)}
+  .cityHero{padding:112px var(--page) 70px}
+  .cityHero h1{font-size:clamp(78px,19vw,150px)}
+  .wizardShell{padding-inline:var(--page);padding-bottom:82px}
+  .wizardStage h1{font-size:clamp(52px,12vw,92px);line-height:.87}
+  .splitPage,.loginPage{padding:104px var(--page) 66px;gap:50px}
+  .splitPage h1,.loginPage h1{font-size:clamp(62px,15vw,118px)}
+  .formPanel{padding-left:0}
+  .dashboardShell,.adminShell{padding:38px var(--page) 78px}
+  .dashboardShell h1,.adminHero h1{font-size:clamp(58px,13vw,102px)}
+}
+
+/* Mobile */
+@media(max-width:560px){
+  :root{--page:16px;--section-y:68px;--section-y-tight:52px}
+  body{font-size:15px;line-height:1.55}
+  .nav{height:62px;padding-inline:14px}
+  .brand{font-size:16px;gap:8px}.brandDot{width:8px;height:8px}
+  .mobileMenuInner{padding:96px 16px 82px}
+  .mobileMenuLinks a{font-size:clamp(32px,9.5vw,46px);line-height:.95;padding:16px 0}
+  .hero,.realtorHero{min-height:90svh;padding:96px var(--page) 34px;gap:26px}
+  .hero h1{font-size:clamp(56px,17.2vw,88px);line-height:.85;letter-spacing:-.052em}
+  .hero h1 em{margin-left:3vw}
+  .heroMeta{gap:12px}
+  .heroTag,.eyebrow{font-size:9.5px;line-height:1.25}
+  .heroCopyBlock>p,.heroBottom>p{font-size:15.5px;line-height:1.58}
+  .heroCtas{gap:10px}
+  .heroQuickStart{margin-top:8px}
+  .heroQuickStart>span,.heroQuickStart a{font-size:8.5px}
+  .marketTicker>div{min-height:40px;font-size:8.5px}
+  .moveSection,.campaign,.cities,.finalCta,.realtorPreview,.realtorJourney,.betaBanner,.manifesto,.splitStatement,.areaSection,.demandTypes,.differenceSection{padding-block:var(--section-y);padding-inline:var(--page)}
+  .sectionIntro{gap:22px;margin-bottom:34px}
+  .sectionTitle{font-size:clamp(52px,15vw,78px);line-height:.87;margin-top:18px}
+  .sectionCopy{font-size:15px;line-height:1.6}
+  .moveCard{padding:20px;min-height:250px}
+  .moveCard h3{font-size:clamp(48px,14vw,68px);line-height:.88;margin-top:38px}
+  .moveCard p{font-size:13.5px}
+  .proofStrip>div{padding:24px var(--page);min-height:124px}
+  .campaignMain h2,.differenceHead h2,.previewCopy h2,.realtorJourney h2,.betaBanner h2,.splitStatement h2,.manifesto h2{font-size:clamp(50px,14vw,76px);line-height:.88}
+  .differenceGrid article{padding:22px;min-height:250px}
+  .differenceGrid h3{font-size:clamp(36px,10.5vw,52px);line-height:.92;margin-top:38px}
+  .cityRow{grid-template-columns:32px 1fr 22px;padding:17px 0}
+  .cityRow h3{font-size:clamp(46px,13vw,68px);line-height:.88}
+  .cityRow p{font-size:10px}
+  .finalCta h2{font-size:clamp(64px,18vw,100px);line-height:.84;margin:28px 0 34px}
+  .footerGrid{gap:34px}.footerGrid a,.footerGrid p{font-size:13px}.footerBrand{font-size:44px}
+  .pageHero{padding:104px var(--page) 50px;min-height:50vh}
+  .pageHero h1{font-size:clamp(58px,16vw,88px);line-height:.86;margin:18px 0}
+  .pageHero>p:last-child{font-size:15px;line-height:1.6}
+  .innerHero{padding:100px var(--page) 50px;min-height:66svh}
+  .innerHero h1{font-size:clamp(58px,17vw,92px);line-height:.86;margin:22px 0}
+  .innerLead{font-size:15.5px;line-height:1.6}
+  .processRow{grid-template-columns:32px 1fr;gap:12px;padding:26px 0}
+  .processRow h2{font-size:clamp(42px,12vw,62px);line-height:.9}
+  .processRow p{font-size:14.5px;line-height:1.6}
+  .marketCard{padding:22px;min-height:300px}
+  .marketCard h2{font-size:clamp(48px,13vw,68px);line-height:.88;margin:44px 0 16px}
+  .cityHero{padding:104px var(--page) 58px;min-height:58svh}
+  .cityHero h1{font-size:clamp(72px,20vw,110px);line-height:.84}
+  .cityHero>p:last-child{font-size:15.5px;line-height:1.6}
+  .areaHeader h2{font-size:clamp(54px,15vw,76px);line-height:.87}
+  .areaRow strong{font-size:15px}
+  .demandTypeGrid>div{padding:20px;min-height:165px}.demandTypeGrid h3{font-size:31px;margin-top:42px}
+  .featureGrid article{padding:22px;min-height:230px}.featureGrid h2{font-size:32px;line-height:.92;margin-top:48px}
+  .beforeAfter>div{padding:62px var(--page)}.beforeAfter h2{font-size:clamp(50px,14vw,72px)}
+  .manifestoCopy p{font-size:15.5px;line-height:1.65}.principles article{padding:22px;min-height:235px}.principles h3{font-size:31px;margin-top:48px}
+  .legalHero{padding:104px var(--page) 50px}.legalHero h1{font-size:clamp(58px,16vw,90px)}
+  .legalBody{padding:58px var(--page) 88px}.legalBody h2{font-size:30px;margin-top:48px}.legalBody p{font-size:15px;line-height:1.72}
+  .wizardShell{padding:10px var(--page) 74px;gap:18px}
+  .briefSummary{padding:20px;margin-bottom:12px}.briefMove{margin:24px 0 18px}.briefMove strong{font-size:36px}
+  .wizardStage{padding:34px 0 26px}.wizardStage h1{font-size:clamp(48px,13vw,68px);line-height:.9;margin:18px 0 32px}
+  .typeChoice{min-height:162px;padding:18px}.typeChoice strong{font-size:37px;margin-top:28px}.typeChoice small{font-size:11px}
+  .formGrid{gap:20px}.formGrid label,.fullField,.loginForm label,.realtorForm label,.choiceField>span{font-size:10px}
+  .field{font-size:16px;padding:13px 0 11px}.consentLine{font-size:12px!important}
+  .budgetPresets{margin-top:-4px;margin-bottom:24px}.budgetPresets button{font-size:7.5px}
+  .successPanel{padding:76px var(--page) 105px}.successPanel h2{font-size:clamp(48px,13vw,70px)}.successPanel p{font-size:15px}
+  .splitPage,.loginPage{padding:98px var(--page) 58px;gap:42px}
+  .splitPage h1,.loginPage h1{font-size:clamp(58px,16vw,88px);line-height:.86}
+  .largeCopy{font-size:15.5px}.formPanel{padding-top:30px}.formStageHead{margin-bottom:28px}
+  .formStageHead h2,.loginFormHead h2{font-size:clamp(36px,10.5vw,48px);line-height:.94}
+  .loginPanel{padding:24px 18px}
+  .dashboardShell,.adminShell{padding:32px var(--page) 76px}.dashboardShell h1,.adminHero h1{font-size:clamp(52px,15vw,76px);line-height:.88}
+  .dashHeader,.adminHero{gap:24px;padding-bottom:22px}.dashHeaderAside p{font-size:12.5px}
+  .dashboardStats article{padding:16px;min-height:124px}.dashboardStats strong{font-size:40px}.dashboardStats p{font-size:10px}
+  .dashboardTabs{margin-top:30px}.dashboardTabs button{font-size:9px;margin-right:18px;padding-top:12px}
+  .sectionLine{padding-top:38px}.sectionLine h2{font-size:34px}
+  .leadCard{padding:18px;min-height:365px}.leadCard h3{font-size:37px}.leadMeta p{font-size:11px}
+  .claimedLeadTitle h3{font-size:28px}.claimedContact strong{font-size:15px}
+  .brutalSelect--field .brutalSelectTrigger{font-size:16px;min-height:49px}
+  .brutalSelect--field .brutalSelectOptionLabel{font-size:12px}
+}
+
+/* Authentication — Google + email */
+.googleAuthButton{width:100%;min-height:56px;border:1px solid var(--ink);background:var(--paper);display:grid;grid-template-columns:36px 1fr 22px;align-items:center;gap:12px;padding:10px 14px;text-align:left;font:900 10px/1.2 "Satoshi",Arial,sans-serif;letter-spacing:.09em;color:var(--ink);cursor:pointer;box-shadow:5px 5px 0 var(--ink);transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.googleAuthButton:hover:not(:disabled){background:#fff;transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--red)}
+.googleAuthButton:active:not(:disabled){transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+.googleAuthButton:disabled{opacity:.55;cursor:not-allowed}
+.googleMark{width:32px;height:32px;border:1px solid var(--ink);display:grid;place-items:center;background:#fff;font:900 18px/1 Arial,sans-serif;color:var(--red);letter-spacing:-.05em}
+.authDivider{display:flex;align-items:center;gap:14px;margin:2px 0;color:var(--muted);font-size:8px;font-weight:900;letter-spacing:.12em;white-space:nowrap}
+.authDivider::before,.authDivider::after{content:"";height:1px;background:var(--line);flex:1}
+.authConnected{border:1px solid var(--ink);background:rgba(248,163,72,.18);padding:13px 14px;display:flex;justify-content:space-between;align-items:center;gap:18px}
+.authConnected>div{display:flex;align-items:center;gap:12px;min-width:0}
+.authConnected p{display:flex;flex-direction:column;gap:3px;min-width:0}
+.authConnected small{font-size:7.5px;font-weight:900;letter-spacing:.12em;color:var(--muted)}
+.authConnected strong{font-size:12px;line-height:1.3;overflow-wrap:anywhere}
+.authConnected>button{border:0;background:transparent;color:var(--red);font-size:8px;font-weight:900;letter-spacing:.08em;cursor:pointer;white-space:nowrap;text-decoration:underline;text-underline-offset:3px}
+.authMethodHelp{font-size:9.5px;line-height:1.45;color:var(--muted);margin-top:2px}
+.authMethodHelp a{color:var(--red);font-weight:900;text-decoration:none}
+.authConsent{margin-top:28px;border-top:1px solid var(--line);padding-top:18px;display:flex!important;align-items:flex-start;gap:11px;font-size:11px!important;line-height:1.55!important;letter-spacing:0!important;text-transform:none!important;font-weight:600!important;color:var(--muted)}
+.authConsent input{appearance:none;flex:0 0 18px;width:18px;height:18px;border:1px solid var(--ink);background:var(--paper);margin-top:1px;cursor:pointer;position:relative}
+.authConsent input:checked{background:var(--red)}
+.authConsent input:checked::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:900}
+.authConsent a{color:var(--ink);font-weight:900;text-decoration:underline;text-underline-offset:3px}
+.authSuccessNotice{margin:18px 0 26px}
+.field[readonly]{color:var(--muted);cursor:not-allowed;border-bottom-color:rgba(30,30,30,.25)}
+.pendingActions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.pendingActions .nextBtn,.pendingActions .backBtn{min-height:46px}
+
+@media(max-width:560px){
+  .googleAuthButton{min-height:54px;grid-template-columns:34px 1fr 20px;padding:9px 12px;font-size:9px;box-shadow:4px 4px 0 var(--ink)}
+  .googleMark{width:30px;height:30px;font-size:17px}
+  .authDivider{font-size:7px;gap:9px}
+  .authConnected{align-items:flex-start;flex-direction:column;padding:12px}
+  .authConnected>button{padding-left:44px}
+  .authConsent{font-size:10.5px!important}
+  .pendingActions{flex-direction:column}.pendingActions button{width:100%;justify-content:center}
 }

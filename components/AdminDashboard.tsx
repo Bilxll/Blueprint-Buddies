@@ -34,7 +34,7 @@ export function AdminDashboard(){
   if(error)return <div className="adminShell adminDenied"><p className="eyebrow">ADMIN</p><h1>ACCESS<br/>DENIED.</h1><p className="errorText">{error}</p><a href="/login">RETURN TO LOGIN →</a></div>;
 
   return <div className="portalShell adminPortal">
-    <header className="portalTopbar"><a className="portalBrand" href="/">CREAIONX <span>PROPERTY</span></a><div><span className="portalIdentity"><ShieldCheck size={15}/> OPERATIONS</span><button onClick={()=>signOut(firebaseAuth).then(()=>location.href="/")}><LogOut size={16}/> LOG OUT</button></div></header>
+    <header className="portalTopbar"><a className="portalBrand" href="/">BLUEPRINT <span>BUDDIES</span></a><div><span className="portalIdentity"><ShieldCheck size={15}/> OPERATIONS</span><button onClick={()=>signOut(firebaseAuth).then(()=>location.href="/")}><LogOut size={16}/> LOG OUT</button></div></header>
     <main className="adminShell">
       <header className="adminHero"><div><p className="eyebrow">OPERATIONS / BETA</p><h1>CONTROL<br/><span>THE MARKET.</span></h1></div><button className="outlineAction" onClick={load}><RefreshCw size={16}/> REFRESH</button></header>
       <section className="opsQueueBar"><div><AlertCircle/><span><strong>{pendingRealtors+unverifiedLeads}</strong> ITEMS NEED ACTION</span></div><p>{pendingRealtors} realtor review{pendingRealtors===1?"":"s"} · {unverifiedLeads} lead verification{unverifiedLeads===1?"":"s"}</p></section>

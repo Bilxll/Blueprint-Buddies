@@ -12,7 +12,8 @@ export async function POST(request: Request) {
     const existing = await adminDb().collection("realtors").where("uid", "==", user.uid).limit(1).get();
     if (!existing.empty) return NextResponse.json({ ok: false, error: "Realtor profile already exists." }, { status: 409 });
     const now = new Date().toISOString();
-    const realtor = { id: `RTL_${randomUUID().replace(/-/g, "").slice(0, 16)}`, uid: user.uid, email: user.email || "", ...body, logoDriveFileId: "", verificationStatus: "pending", status: "active", createdAt: now, updatedAt: now };
+    const authProvider = user.firebase?.sign_in_provider === "google.com" ? "google" : "email";
+    const realtor = { id: `RTL_${randomUUID().replace(/-/g, "").slice(0, 16)}`, uid: user.uid, email: user.email || "", ...body, authProvider, termsAcceptedAt: now, logoDriveFileId: "", verificationStatus: "pending", status: "active", createdAt: now, updatedAt: now };
     await adminDb().collection("realtors").doc(realtor.id).set(realtor);
     appendSheetRow("Realtors", realtor).catch(console.error);
     return NextResponse.json({ ok: true, realtor });

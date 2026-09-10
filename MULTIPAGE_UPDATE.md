@@ -1,4 +1,4 @@
-# CREAIONX PROPERTY — Multi-page Update
+# BLUEPRINT BUDDIES — Multi-page Update
 
 This update turns the public site from a one-page presentation into a routed website while preserving the existing lead/realtor backend.
 

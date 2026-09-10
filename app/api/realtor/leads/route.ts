@@ -10,6 +10,7 @@ export async function GET(request: Request) {
     if (realtorSnap.empty) return NextResponse.json({ ok: false, error: "Complete your realtor profile first." }, { status: 404 });
     const realtor = realtorSnap.docs[0].data();
     const realtorPublic = { id: realtor.id, fullName: realtor.fullName, agencyName: realtor.agencyName, city: realtor.city, areas: realtor.areas || [], propertyTypes: realtor.propertyTypes || [], leadTypes: realtor.leadTypes || [], verificationStatus: realtor.verificationStatus };
+    if (user.email_verified !== true) return NextResponse.json({ ok: true, pendingEmailVerification: true, realtor: realtorPublic, leads: [] });
     if (realtor.verificationStatus !== "verified") return NextResponse.json({ ok: true, pendingVerification: true, realtor: realtorPublic, leads: [] });
     const leadsSnap = await db.collection("leads").where("city", "==", realtor.city).limit(100).get();
     const weight:Record<string,number>={hot:0,warm:1,future:2,needs_verification:3};

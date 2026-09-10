@@ -18,6 +18,7 @@ export const leadSchema = z.object({
   name: z.string().min(2).max(100),
   phone: z.string().min(10).max(30),
   email: z.string().email().optional().or(z.literal("")),
+  contactConsent: z.literal(true),
   source: z.string().max(80).optional(), campaign: z.string().max(120).optional(), contentId: z.string().max(120).optional(),
   utmSource: z.string().max(120).optional(), utmMedium: z.string().max(120).optional(), utmCampaign: z.string().max(120).optional()
 });
@@ -25,5 +26,6 @@ export const leadSchema = z.object({
 export const realtorSchema = z.object({
   fullName: z.string().min(2).max(100), agencyName: z.string().min(2).max(140), phone: z.string().min(10).max(30), whatsapp: z.string().min(10).max(30),
   city: z.string().min(2), areas: z.array(z.string()).min(1), propertyTypes: z.array(z.string()).min(1), leadTypes: z.array(z.enum(["buy","sell","invest","rent"])).min(1),
-  experience: z.string().max(80).optional(), website: z.string().url().optional().or(z.literal("")), instagram: z.string().max(200).optional(), facebook: z.string().max(200).optional(), about: z.string().max(800).optional()
+  experience: z.string().max(80).optional(), website: z.string().url().optional().or(z.literal("")), instagram: z.string().max(200).optional(), facebook: z.string().max(200).optional(), about: z.string().max(800).optional(),
+  termsAccepted: z.literal(true)
 });

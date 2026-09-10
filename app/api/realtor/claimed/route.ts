@@ -13,6 +13,7 @@ const updateSchema=z.object({
 export async function GET(request: Request) {
   try {
     const user = await requireUser(request);
+    if (user.email_verified !== true) return NextResponse.json({ ok: false, error: "Verify your email first." }, { status: 403 });
     const db = adminDb();
     const claims = await db.collection("leadClaims").where("realtorUid", "==", user.uid).limit(100).get();
     const rows = await Promise.all(claims.docs.map(async c => {
@@ -27,6 +28,7 @@ export async function GET(request: Request) {
 export async function PATCH(request: Request){
   try{
     const user=await requireUser(request);
+    if (user.email_verified !== true) return NextResponse.json({ok:false,error:"Verify your email first."},{status:403});
     const body=updateSchema.parse(await request.json());
     const db=adminDb();
     const ref=db.collection("leadClaims").doc(body.claimId);

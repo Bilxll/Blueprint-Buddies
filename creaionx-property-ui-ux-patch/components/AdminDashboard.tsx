@@ -1,0 +1,42 @@
+"use client";
+
+import { useEffect,useMemo,useState } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { firebaseAuth } from "@/lib/firebase-client";
+import { CheckCircle2, Flame, LogOut, RefreshCw, Search, ShieldCheck, UserRoundCheck, UsersRound } from "lucide-react";
+
+export function AdminDashboard(){
+  const[leads,setLeads]=useState<any[]>([]);
+  const[realtors,setRealtors]=useState<any[]>([]);
+  const[error,setError]=useState("");
+  const[loading,setLoading]=useState(true);
+  const[query,setQuery]=useState("");
+  const[tab,setTab]=useState<"realtors"|"leads">("realtors");
+  const[busy,setBusy]=useState("");
+
+  async function tok(){const u=firebaseAuth.currentUser;if(!u)throw new Error();return u.getIdToken()}
+  async function load(){setLoading(true);setError("");try{const t=await tok();const[a,b]=await Promise.all([fetch("/api/admin/leads",{headers:{authorization:`Bearer ${t}`}}),fetch("/api/admin/realtors",{headers:{authorization:`Bearer ${t}`}})]);const aj=await a.json(),bj=await b.json();if(!a.ok||!b.ok)throw new Error("Admin access denied");setLeads(aj.leads||[]);setRealtors(bj.realtors||[])}catch(e:any){setError(e.message||"Admin access denied")}finally{setLoading(false)}}
+  useEffect(()=>onAuthStateChanged(firebaseAuth,u=>u?load():location.href="/login"),[]);
+  async function verify(id:string,status:string){setBusy(id);const t=await tok();await fetch("/api/admin/realtors",{method:"PATCH",headers:{"content-type":"application/json",authorization:`Bearer ${t}`},body:JSON.stringify({realtorId:id,verificationStatus:status})});await load();setBusy("")}
+  async function verifyLead(id:string){setBusy(id);const t=await tok();await fetch("/api/admin/leads",{method:"PATCH",headers:{"content-type":"application/json",authorization:`Bearer ${t}`},body:JSON.stringify({leadId:id,verificationStatus:"verified",status:"verified"})});await load();setBusy("")}
+
+  const pendingRealtors=realtors.filter(r=>r.verificationStatus==="pending").length;
+  const unverifiedLeads=leads.filter(l=>l.verificationStatus!=="verified").length;
+  const hotLeads=leads.filter(l=>l.temperature==="hot").length;
+  const q=query.trim().toLowerCase();
+  const filteredRealtors=useMemo(()=>realtors.filter(r=>!q||`${r.fullName} ${r.agencyName} ${r.city} ${(r.areas||[]).join(" ")}`.toLowerCase().includes(q)),[realtors,q]);
+  const filteredLeads=useMemo(()=>leads.filter(l=>!q||`${l.name} ${l.phone} ${l.type} ${l.area} ${l.city}`.toLowerCase().includes(q)),[leads,q]);
+
+  if(error)return <div className="adminShell adminDenied"><p className="eyebrow">ADMIN</p><h1>ACCESS<br/>DENIED.</h1><p className="errorText">{error}</p><a href="/login">RETURN TO LOGIN →</a></div>;
+
+  return <div className="portalShell adminPortal">
+    <header className="portalTopbar"><a className="portalBrand" href="/">CREAIONX <span>PROPERTY</span></a><div><span className="portalIdentity"><ShieldCheck size={15}/> OPERATIONS</span><button onClick={()=>signOut(firebaseAuth).then(()=>location.href="/")}><LogOut size={16}/> LOG OUT</button></div></header>
+    <main className="adminShell">
+      <header className="adminHero"><div><p className="eyebrow">OPERATIONS / BETA</p><h1>CONTROL<br/><span>THE MARKET.</span></h1></div><button className="outlineAction" onClick={load}><RefreshCw size={16}/> REFRESH</button></header>
+      <section className="dashboardStats adminStatsGrid"><article><UsersRound/><span>REALTORS</span><strong>{realtors.length}</strong><p>{pendingRealtors} awaiting review</p></article><article><UserRoundCheck/><span>LEADS</span><strong>{leads.length}</strong><p>{unverifiedLeads} need verification</p></article><article><Flame/><span>HOT INTENT</span><strong>{hotLeads}</strong><p>currently scored hot</p></article><article><CheckCircle2/><span>VERIFIED</span><strong>{leads.filter(l=>l.verificationStatus==="verified").length}</strong><p>lead contacts verified</p></article></section>
+      <div className="dashboardTabs"><button className={tab==="realtors"?"active":""} onClick={()=>setTab("realtors")}>REALTOR VERIFICATION <span>{pendingRealtors}</span></button><button className={tab==="leads"?"active":""} onClick={()=>setTab("leads")}>LEAD REVIEW <span>{unverifiedLeads}</span></button></div>
+      <div className="adminToolbar"><label><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder={tab==="realtors"?"Search realtor, agency or area":"Search lead, phone or area"}/></label></div>
+      {loading?<div className="portalLoading"><span/><p>Loading operations…</p></div>:tab==="realtors"?<section><div className="sectionLine"><div><p className="eyebrow">ACCOUNT ACCESS</p><h2>REALTORS</h2></div><span>{filteredRealtors.length} SHOWN</span></div><div className="adminTable">{filteredRealtors.map(r=><article className="adminRow" key={r.id}><div><strong>{r.fullName}</strong><span>{r.agencyName} · {r.city}</span><small>{r.areas?.join(" · ")}</small></div><span className={`statusPill status-${r.verificationStatus}`}>{r.verificationStatus}</span><div><button disabled={busy===r.id} onClick={()=>verify(r.id,"verified")}>VERIFY</button><button disabled={busy===r.id} className="dangerButton" onClick={()=>verify(r.id,"rejected")}>REJECT</button></div></article>)}</div></section>:<section><div className="sectionLine"><div><p className="eyebrow">CONTACT QUALITY</p><h2>LEADS</h2></div><span>{filteredLeads.length} SHOWN</span></div><div className="adminTable">{filteredLeads.slice(0,100).map(l=><article className="adminRow" key={l.id}><div><strong>{l.type?.toUpperCase()} · {l.area}</strong><span>{l.name} · {l.phone}</span><small>{l.propertyType} · {l.timeframe}</small></div><span className={`statusPill ${l.temperature}`}>{l.temperature} / {l.verificationStatus}</span><div>{l.verificationStatus!=="verified"?<button disabled={busy===l.id} onClick={()=>verifyLead(l.id)}>VERIFY CONTACT</button>:<span className="verifiedLabel">✓ VERIFIED</span>}</div></article>)}</div></section>}
+    </main>
+  </div>
+}

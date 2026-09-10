@@ -8,13 +8,13 @@ cp .env.example .env.local
 npm run dev
 ```
 
-If `creaionx-property-leads-mvp.zip` was uploaded to the repository root instead:
+If `blueprint-buddies-mvp.zip` was uploaded to the repository root instead:
 
 ```bash
-unzip creaionx-property-leads-mvp.zip
+unzip blueprint-buddies-mvp.zip
 shopt -s dotglob
-cp -R creaionx-property-leads/* .
-rm -rf creaionx-property-leads creaionx-property-leads-mvp.zip
+cp -R blueprint-buddies/* .
+rm -rf blueprint-buddies blueprint-buddies-mvp.zip
 npm install
 cp .env.example .env.local
 npm run dev

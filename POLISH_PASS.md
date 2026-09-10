@@ -1,4 +1,4 @@
-# CREAIONX Property — Product Polish Pass
+# BLUEPRINT BUDDIES — Product Polish Pass
 
 This patch is a UI/UX refinement on top of the working multipage Firebase MVP.
 
@@ -31,7 +31,7 @@ If build succeeds:
 
 ```bash
 git add app components POLISH_PASS.md
-git commit -m "Polish CREAIONX Property product UX"
+git commit -m "Polish BLUEPRINT BUDDIES product UX"
 git push origin main
 ```
 

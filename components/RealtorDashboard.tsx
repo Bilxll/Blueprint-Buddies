@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect,useMemo,useState } from "react";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged, sendEmailVerification, signOut } from "firebase/auth";
 import { firebaseAuth } from "@/lib/firebase-client";
 import { ArrowUpRight, BriefcaseBusiness, CheckCircle2, Copy, Flame, LogOut, MapPin, MessageCircle, RefreshCw, Search, SlidersHorizontal, UserRoundCheck, X } from "lucide-react";
 import { BrutalistSelect } from "@/components/BrutalistSelect";
@@ -21,6 +21,7 @@ export function RealtorDashboard(){
   const[leads,setLeads]=useState<any[]>([]);
   const[claimed,setClaimed]=useState<any[]>([]);
   const[pending,setPending]=useState(false);
+  const[emailPending,setEmailPending]=useState(false);
   const[notice,setNotice]=useState("");
   const[realtor,setRealtor]=useState<any>(null);
   const[tab,setTab]=useState<"discover"|"claimed">("discover");
@@ -30,15 +31,16 @@ export function RealtorDashboard(){
   const[query,setQuery]=useState("");
   const[busyId,setBusyId]=useState("");
 
-  async function token(){const u=firebaseAuth.currentUser;if(!u)throw new Error("NO_USER");return u.getIdToken();}
+  async function token(force=false){const u=firebaseAuth.currentUser;if(!u)throw new Error("NO_USER");return u.getIdToken(force);}
   async function load(){
     setLoading(true);
     try{
-      const t=await token();
+      await firebaseAuth.currentUser?.reload();
+      const t=await token(true);
       const [a,b]=await Promise.all([fetch("/api/realtor/leads",{headers:{authorization:`Bearer ${t}`}}),fetch("/api/realtor/claimed",{headers:{authorization:`Bearer ${t}`}})]);
       const aj=await a.json();const bj=await b.json();
       if(!a.ok) throw new Error(aj.error||"Could not load your marketplace.");
-      setPending(!!aj.pendingVerification);setRealtor(aj.realtor||null);setLeads(aj.leads||[]);setClaimed(bj.claimed||[]);
+      setEmailPending(!!aj.pendingEmailVerification);setPending(!!aj.pendingVerification);setRealtor(aj.realtor||null);setLeads(aj.leads||[]);setClaimed(bj.claimed||[]);
     }catch{location.href="/login"}finally{setLoading(false)}
   }
   useEffect(()=>onAuthStateChanged(firebaseAuth,u=>{if(!u)location.href="/login";else load()}),[]);
@@ -76,20 +78,29 @@ export function RealtorDashboard(){
     catch(e:any){setNotice(e.message||"Could not submit feedback.")}finally{setBusyId("")}
   }
 
+
+  async function resendVerification(){
+    setNotice("");
+    const user=firebaseAuth.currentUser;
+    if(!user){location.href="/login";return;}
+    try{await sendEmailVerification(user);setNotice("Verification email sent. Check your inbox, then refresh this page after verifying.");}
+    catch(e:any){setNotice(e?.code?.includes("too-many-requests")?"Too many verification emails requested. Wait a moment and try again.":"Could not send the verification email.");}
+  }
+
   async function copyPhone(phone:string){
     try{await navigator.clipboard.writeText(phone);setNotice("Phone number copied.");}catch{setNotice("Could not copy the phone number.");}
   }
 
   return <div className="portalShell">
-    <header className="portalTopbar"><a className="portalBrand" href="/">CREAIONX <span>PROPERTY</span></a><div><span className="portalIdentity"><UserRoundCheck size={15}/>{realtor?.fullName||firebaseAuth.currentUser?.email||"REALTOR"}</span><button onClick={()=>signOut(firebaseAuth).then(()=>location.href="/")}><LogOut size={16}/> LOG OUT</button></div></header>
+    <header className="portalTopbar"><a className="portalBrand" href="/">BLUEPRINT <span>BUDDIES</span></a><div><span className="portalIdentity"><UserRoundCheck size={15}/>{realtor?.fullName||firebaseAuth.currentUser?.email||"REALTOR"}</span><button onClick={()=>signOut(firebaseAuth).then(()=>location.href="/")}><LogOut size={16}/> LOG OUT</button></div></header>
 
     <main className="dashboardShell">
       <header className="dashHeader"><div><p className="eyebrow">REALTOR PORTAL / BETA</p><h1>YOUR<br/><span>MARKET.</span></h1></div><div className="dashHeaderAside"><p>Qualified property opportunities matched to your approved territories.</p><button onClick={load}><RefreshCw size={16}/> REFRESH DATA</button></div></header>
 
-      {realtor&&<section className="accountContext" aria-label="Realtor access summary"><div><span>ACCESS</span><strong>{pending?"PENDING":"BETA ACTIVE"}</strong></div><div><span>CITY</span><strong>{realtor.city||"—"}</strong></div><div className="accountContextWide"><span>TERRITORIES</span><strong>{(realtor.areas||[]).length?(realtor.areas||[]).join(" · "):"NOT SET"}</strong></div><div><span>WON</span><strong>{wonClaims}</strong></div></section>}
+      {realtor&&<section className="accountContext" aria-label="Realtor access summary"><div><span>ACCESS</span><strong>{emailPending?"EMAIL VERIFY":pending?"PENDING":"BETA ACTIVE"}</strong></div><div><span>CITY</span><strong>{realtor.city||"—"}</strong></div><div className="accountContextWide"><span>TERRITORIES</span><strong>{(realtor.areas||[]).length?(realtor.areas||[]).join(" · "):"NOT SET"}</strong></div><div><span>WON</span><strong>{wonClaims}</strong></div></section>}
 
       {notice&&<div className="notice" role="status">{notice}<button onClick={()=>setNotice("")} aria-label="Dismiss notification"><X size={16}/></button></div>}
-      {loading?<div className="portalLoading"><span/><p>Loading your territory…</p></div>:pending?<div className="pendingBox"><p className="eyebrow">VERIFICATION PENDING</p><h2>YOUR MARKETPLACE<br/><span>ACCESS IS LOCKED.</span></h2><p>We review realtor profiles before exposing property opportunities or consumer contact information. You can return to this portal after approval.</p></div>:<>
+      {loading?<div className="portalLoading"><span/><p>Loading your territory…</p></div>:emailPending?<div className="pendingBox"><p className="eyebrow">EMAIL VERIFICATION REQUIRED</p><h2>VERIFY YOUR<br/><span>EMAIL ADDRESS.</span></h2><p>We protect consumer contact information behind verified realtor accounts. Open the verification link sent to your email, then refresh your portal.</p><div className="pendingActions"><button className="nextBtn" onClick={resendVerification}>RESEND EMAIL</button><button className="backBtn" onClick={load}>I VERIFIED — REFRESH</button></div></div>:pending?<div className="pendingBox"><p className="eyebrow">REALTOR REVIEW PENDING</p><h2>YOUR MARKETPLACE<br/><span>ACCESS IS LOCKED.</span></h2><p>Your email is verified. We now review the realtor profile before exposing property opportunities or consumer contact information. Return to this portal after approval.</p></div>:<>
         <section className="dashboardStats">
           <article><span>AVAILABLE</span><strong>{leads.length}</strong><p>matching opportunities</p></article>
           <article><span>HOT NOW</span><strong>{hot}</strong><p>high-intent opportunities</p></article>

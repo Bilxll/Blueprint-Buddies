@@ -13,7 +13,7 @@ export type CityPage = {
 export const CITY_PAGES: CityPage[] = [
   {
     slug: "karachi", name: "Karachi", number: "01", statement: "A CITY OF MICRO-MARKETS.",
-    intro: "Karachi property demand changes street by street. CREAIONX PROPERTY captures the area, budget, property type and timeframe before matching the requirement to participating realtors.",
+    intro: "Karachi property demand changes street by street. BLUEPRINT BUDDIES captures the area, budget, property type and timeframe before matching the requirement to participating realtors.",
     demand: ["Residential buyers", "Property owners ready to sell", "Investment requirements", "Rental demand"],
     realtorCopy: "Choose the Karachi areas you actually work. Your opportunity feed is designed around those territories instead of showing irrelevant city-wide noise."
   },
@@ -25,7 +25,7 @@ export const CITY_PAGES: CityPage[] = [
   },
   {
     slug: "islamabad", name: "Islamabad", number: "03", statement: "CLEAR INTENT. LOCAL EXPERTISE.",
-    intro: "Islamabad combines sectors, gated communities and investment corridors. CREAIONX PROPERTY turns vague inquiries into structured property requirements.",
+    intro: "Islamabad combines sectors, gated communities and investment corridors. BLUEPRINT BUDDIES turns vague inquiries into structured property requirements.",
     demand: ["Sector-based buyers", "Bahria & DHA demand", "Investment property", "Seller requirements"],
     realtorCopy: "Instead of competing for every inquiry, participating realtors can focus on the sectors and communities where they have real inventory and expertise."
   },

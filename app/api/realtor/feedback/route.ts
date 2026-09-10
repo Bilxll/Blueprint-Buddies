@@ -7,6 +7,7 @@ import { randomUUID } from "node:crypto";
 export async function POST(request: Request) {
   try {
     const user = await requireUser(request);
+    if (user.email_verified !== true) return NextResponse.json({ ok: false, error: "Verify your email first." }, { status: 403 });
     const { leadId, valid, reason, comment } = await request.json();
     const db = adminDb();
     const realtorSnap = await db.collection("realtors").where("uid", "==", user.uid).limit(1).get();

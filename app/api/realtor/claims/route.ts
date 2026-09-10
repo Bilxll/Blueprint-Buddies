@@ -6,6 +6,7 @@ import { appendSheetRow } from "@/lib/google";
 export async function POST(request: Request) {
   try {
     const user = await requireUser(request);
+    if (user.email_verified !== true) return NextResponse.json({ ok: false, error: "Verify your email before claiming leads." }, { status: 403 });
     const { leadId } = await request.json();
     if (!leadId) return NextResponse.json({ ok: false, error: "Lead ID required." }, { status: 400 });
     const db = adminDb();

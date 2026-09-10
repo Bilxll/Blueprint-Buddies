@@ -2,11 +2,11 @@ import { google } from "googleapis";
 import { Readable } from "node:stream";
 
 const SHEET_HEADERS: Record<string, string[]> = {
-  Leads: ["id","type","city","area","propertyType","budgetMin","budgetMax","size","bedrooms","paymentMode","purpose","timeframe","ownerConfirmed","expectedPrice","investmentGoal","name","phone","email","temperature","leadScore","verificationStatus","status","maxClaims","claimCount","source","campaign","contentId","utmSource","utmMedium","utmCampaign","createdAt","updatedAt"],
-  Realtors: ["id","uid","fullName","agencyName","phone","whatsapp","email","city","areas","propertyTypes","leadTypes","experience","website","instagram","facebook","logoDriveFileId","about","verificationStatus","status","createdAt","updatedAt"],
+  Leads: ["id","type","city","area","propertyType","budgetMin","budgetMax","size","bedrooms","paymentMode","purpose","timeframe","ownerConfirmed","expectedPrice","investmentGoal","name","phone","email","temperature","leadScore","verificationStatus","status","maxClaims","claimCount","source","campaign","contentId","utmSource","utmMedium","utmCampaign","createdAt","updatedAt","contactConsent"],
+  Realtors: ["id","uid","fullName","agencyName","phone","whatsapp","email","city","areas","propertyTypes","leadTypes","experience","website","instagram","facebook","logoDriveFileId","about","verificationStatus","status","createdAt","updatedAt","authProvider","termsAccepted","termsAcceptedAt"],
   LeadClaims: ["id","leadId","realtorId","realtorUid","status","notes","claimedAt","updatedAt"],
   LeadFeedback: ["id","leadId","realtorId","valid","reason","comment","createdAt"],
-  Conversions: ["id","leadId","realtorId","status","dealEstimate","propertyShown","nextFollowUp","createdAt","updatedAt"],
+  Conversions: ["id","leadId","realtorId","status","dealEstimate","propertyShown","nextFollowUp","createdAt","updatedAt","claimId","notes","eventType"],
   Notifications: ["id","userId","type","title","message","read","createdAt"],
   AuditLog: ["id","actorUid","action","entityType","entityId","payload","createdAt"],
 };

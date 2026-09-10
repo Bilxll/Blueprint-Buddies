@@ -2,6 +2,7 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { CTAButton } from "@/components/CTAButton";
 import { ArrowUpRight, Check, Flame, LockKeyhole, MapPin, ShieldCheck, Workflow, WalletCards } from "lucide-react";
+import { HeroArtwork } from "@/components/HeroArtwork";
 
 const features=[
   ["01","TERRITORIES","Select the cities and areas you actually serve."],
@@ -13,7 +14,7 @@ const features=[
 ];
 
 export default function ForRealtors(){return <main><Nav/>
-<section className="realtorHero"><div className="blob blobOne"/><div className="heroGhostWord realtorGhost" aria-hidden="true">DEMAND</div><div className="heroMeta"><p className="eyebrow">REALTOR NETWORK — BETA</p><span className="betaStamp">VERIFICATION REQUIRED</span></div><h1>DON&apos;T BUY<br/><span>ATTENTION.</span><br/>ACCESS DEMAND.</h1><div className="heroBottom"><p>Create one realtor profile, define your markets and manage matching property opportunities from one portal.</p><div className="heroCtas"><CTAButton href="/join-realtor">JOIN THE BETA</CTAButton><CTAButton href="/login" secondary>REALTOR LOGIN</CTAButton></div></div></section>
+<section className="realtorHero hasHeroArtwork"><div className="blob blobOne"/><div className="heroGhostWord realtorGhost" aria-hidden="true">DEMAND</div><div className="heroMeta"><p className="eyebrow">REALTOR NETWORK — BETA</p><span className="betaStamp">VERIFICATION REQUIRED</span></div><h1>DON&apos;T BUY<br/><span>ATTENTION.</span><br/>ACCESS DEMAND.</h1><div className="heroBottom"><p>Create one realtor profile, define your markets and manage matching property opportunities from one portal.</p><div className="heroCtas"><CTAButton href="/join-realtor">JOIN THE BETA</CTAButton><CTAButton href="/login" secondary>REALTOR LOGIN</CTAButton></div></div><HeroArtwork src="/images/heroes/for-realtors.webp" alt="Realtors receiving matched property opportunities and connecting with clients" priority/></section>
 
 <section className="realtorTrustRail"><div><MapPin/><span><strong>LOCAL FIRST</strong>Only opportunities from approved territories.</span></div><div><ShieldCheck/><span><strong>VERIFIED ACCESS</strong>Realtor profiles are reviewed before contact unlock.</span></div><div><Workflow/><span><strong>ONE PIPELINE</strong>Claim, contact and track follow-up in one portal.</span></div><div><WalletCards/><span><strong>PACKAGE READY</strong>Credits and subscriptions plug in after beta.</span></div></section>
 

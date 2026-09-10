@@ -1200,3 +1200,59 @@ footer{padding:40px var(--page) 28px}
   .authConsent{font-size:10.5px!important}
   .pendingActions{flex-direction:column}.pendingActions button{width:100%;justify-content:center}
 }
+
+/* HERO ARTWORK SYSTEM — generated editorial collages */
+.hasHeroArtwork{isolation:isolate}
+.heroArtwork{position:absolute!important;z-index:1!important;right:var(--page);bottom:clamp(48px,5.5vw,82px);width:min(45vw,760px);aspect-ratio:16/9;margin:0;overflow:hidden;border:1px solid var(--ink);background:var(--soft);box-shadow:14px 14px 0 var(--ink);animation:slideUp .9s var(--ease) .12s both!important}
+.heroArtworkImage{object-fit:cover;filter:saturate(.94) contrast(1.025)}
+.heroArtworkFrame{position:absolute;inset:0;border:10px solid rgba(228,226,221,.08);pointer-events:none}
+.heroArtwork::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(228,226,221,.08),transparent 38%,rgba(219,74,43,.05));pointer-events:none}
+
+.homeHero.hasHeroArtwork h1{font-size:clamp(68px,10.2vw,170px);max-width:64vw}
+.homeHero.hasHeroArtwork .heroBottom{grid-template-columns:1fr;max-width:48vw;gap:28px}
+.homeHero.hasHeroArtwork .heroCtas{justify-content:flex-start}
+.homeHero.hasHeroArtwork .homeArtwork{bottom:clamp(92px,8vw,126px)}
+.homeHero.hasHeroArtwork .heroQuickStart{max-width:48vw}
+
+.innerHero.hasHeroArtwork{align-items:flex-start}
+.innerHero.hasHeroArtwork h1{font-size:clamp(68px,9.4vw,158px);max-width:58vw}
+.innerHero.hasHeroArtwork .innerLead{max-width:43vw}
+.compactHero.hasHeroArtwork{min-height:78svh}
+
+.cityHero.hasHeroArtwork h1{font-size:clamp(82px,11vw,182px);max-width:58vw}
+.cityHero.hasHeroArtwork>p:last-of-type{max-width:42vw}
+.cityHero.hasHeroArtwork .cityNumber{right:42vw}
+
+.realtorHero.hasHeroArtwork h1{font-size:clamp(66px,8.2vw,138px);max-width:58vw}
+.realtorHero.hasHeroArtwork .heroBottom{grid-template-columns:1fr;max-width:44vw;gap:28px}
+.realtorHero.hasHeroArtwork .heroCtas{justify-content:flex-start}
+
+.legalHero.hasHeroArtwork{position:relative;overflow:hidden;min-height:72svh}
+.legalHero.hasHeroArtwork h1{font-size:clamp(68px,8.5vw,145px);max-width:54vw;position:relative;z-index:2}
+.legalHero.hasHeroArtwork>p{position:relative;z-index:2}
+.legalHero.hasHeroArtwork .heroArtwork{width:min(43vw,700px);bottom:58px}
+
+@media(max-width:1100px){
+  .heroArtwork{width:43vw}
+  .homeHero.hasHeroArtwork h1,.innerHero.hasHeroArtwork h1,.cityHero.hasHeroArtwork h1,.realtorHero.hasHeroArtwork h1{max-width:60vw}
+}
+
+@media(max-width:900px){
+  .heroArtwork{position:relative!important;right:auto;bottom:auto;width:100%;aspect-ratio:16/9;margin:30px 0 4px;box-shadow:8px 8px 0 var(--ink);order:5}
+  .homeHero.hasHeroArtwork,.innerHero.hasHeroArtwork,.cityHero.hasHeroArtwork,.realtorHero.hasHeroArtwork,.legalHero.hasHeroArtwork{min-height:auto}
+  .homeHero.hasHeroArtwork h1,.innerHero.hasHeroArtwork h1,.cityHero.hasHeroArtwork h1,.realtorHero.hasHeroArtwork h1,.legalHero.hasHeroArtwork h1{max-width:100%}
+  .homeHero.hasHeroArtwork h1{font-size:18vw}
+  .innerHero.hasHeroArtwork h1{font-size:16vw}
+  .cityHero.hasHeroArtwork h1{font-size:18vw}
+  .realtorHero.hasHeroArtwork h1{font-size:15vw}
+  .legalHero.hasHeroArtwork h1{font-size:16vw}
+  .homeHero.hasHeroArtwork .heroBottom,.homeHero.hasHeroArtwork .heroQuickStart,.innerHero.hasHeroArtwork .innerLead,.cityHero.hasHeroArtwork>p:last-of-type,.realtorHero.hasHeroArtwork .heroBottom{max-width:100%}
+  .homeHero.hasHeroArtwork .homeArtwork{bottom:auto}
+  .cityHero.hasHeroArtwork .cityNumber{right:2vw}
+  .legalHero.hasHeroArtwork .heroArtwork{width:100%;bottom:auto}
+}
+
+@media(max-width:560px){
+  .heroArtwork{margin-top:24px;box-shadow:6px 6px 0 var(--ink)}
+  .heroArtworkFrame{border-width:6px}
+}

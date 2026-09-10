@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { CTAButton } from "@/components/CTAButton";
 import { ArrowDownRight, ArrowUpRight, CheckCircle2, Home as HomeIcon, KeyRound, TrendingUp, BadgeDollarSign, LockKeyhole, MapPinned, Workflow } from "lucide-react";
 import { CITY_PAGES } from "@/lib/city-pages";
+import { HeroArtwork } from "@/components/HeroArtwork";
 
 const MOVES = [
   { type: "buy", label: "BUY", copy: "Tell us the city, area, property type and budget you want.", icon: HomeIcon },
@@ -16,7 +17,7 @@ const QUICK_MARKETS=["Karachi","Lahore","Islamabad","Rawalpindi"];
 
 export default function Home(){
   return <main><Nav/>
-    <section className="hero homeHero">
+    <section className="hero homeHero hasHeroArtwork">
       <div className="blob blobOne"/><div className="blob blobTwo"/>
       <div className="heroGhostWord" aria-hidden="true">DEMAND</div>
       <div className="heroMeta"><p className="heroTag"><span className="liveDot"/> PAKISTAN&apos;S PROPERTY DEMAND NETWORK</p><span className="betaStamp">BETA / 2026</span></div>
@@ -26,6 +27,7 @@ export default function Home(){
         <div className="heroCopyBlock"><p>Start with the requirement — not another wall of listings. We structure what you need and route it toward participating realtors who actually work that market.</p><div className="heroSignals"><span>NO CONSUMER ACCOUNT</span><span>4 LAUNCH CITIES</span><span>CONTACTS STAY PRIVATE</span></div></div>
         <div className="heroCtas"><CTAButton href="/get-started">SUBMIT REQUIREMENT</CTAButton><CTAButton href="/for-realtors" secondary>FOR REALTORS</CTAButton></div>
       </div>
+      <HeroArtwork src="/images/heroes/home.webp" alt="Property buyers, city markets and realtors connected across Pakistan" priority className="homeArtwork"/>
       <div className="heroQuickStart" aria-label="Quick start">
         <span>I WANT TO</span>
         {MOVES.map(move=><Link href={`/get-started?type=${move.type}`} key={move.type}>{move.label}<ArrowUpRight size={14}/></Link>)}

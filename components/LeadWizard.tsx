@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Check, Flame } from "lucide-react";
 import { CITY_AREAS, PROPERTY_TYPES, TIMEFRAMES } from "@/lib/market";
 import type { LeadType } from "@/lib/types";
@@ -12,6 +12,7 @@ export function LeadWizard(){
  const [step,setStep]=useState(0); const [busy,setBusy]=useState(false); const [done,setDone]=useState<{id:string;temperature:string}|null>(null); const [error,setError]=useState("");
  const [data,setData]=useState<any>({type:"buy",city:"Karachi",area:"DHA",propertyType:"House",timeframe:"Within 30 days",paymentMode:"Cash",name:"",phone:"",email:"",ownerConfirmed:false});
  const areas=useMemo(()=>CITY_AREAS[data.city]||["Other"],[data.city]);
+ useEffect(()=>{const q=new URLSearchParams(window.location.search);const city=q.get("city");const type=q.get("type") as LeadType|null;if(city && CITY_AREAS[city]) setData((d:any)=>({...d,city,area:CITY_AREAS[city][0]}));if(type && TYPES.some(t=>t.id===type)) setData((d:any)=>({...d,type}));},[]);
  function patch(k:string,v:any){setData((d:any)=>({...d,[k]:v}));}
  async function submit(){setBusy(true);setError("");try{const payload={...data,budgetMin:data.budgetMin?Number(data.budgetMin):undefined,budgetMax:data.budgetMax?Number(data.budgetMax):undefined,expectedPrice:data.expectedPrice?Number(data.expectedPrice):undefined,source:new URLSearchParams(location.search).get("source")||"website",utmSource:new URLSearchParams(location.search).get("utm_source")||undefined,utmMedium:new URLSearchParams(location.search).get("utm_medium")||undefined,utmCampaign:new URLSearchParams(location.search).get("utm_campaign")||undefined};const r=await fetch("/api/leads",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(payload)});const j=await r.json();if(!r.ok)throw new Error(j.error||"Submission failed");setDone({id:j.leadId,temperature:j.temperature});}catch(e:any){setError(e.message)}finally{setBusy(false)}}
  if(done)return <div className="successPanel"><div className="successIcon"><Check/></div><p className="eyebrow">REQUIREMENT RECEIVED</p><h2>WE'LL MATCH THE RIGHT PROPERTY PEOPLE.</h2><p>Your reference is <strong>{done.id}</strong>. Your requirement is currently marked <strong>{done.temperature.replace("_"," ").toUpperCase()}</strong> and will be reviewed before being shown as verified.</p><a className="ctaButton inlineButton" href="/"><span className="ctaFill"/><span className="ctaText">BACK HOME <ArrowRight size={18}/></span></a></div>;

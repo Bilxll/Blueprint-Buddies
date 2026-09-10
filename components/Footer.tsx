@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
 const cities = [
   ["Karachi", "/cities/karachi"],
@@ -10,9 +11,10 @@ const cities = [
 export function Footer() {
   return (
     <footer>
+      <div className="footerTopline"><span>PROPERTY DEMAND, STRUCTURED.</span><Link href="/get-started">SUBMIT A REQUIREMENT <ArrowUpRight size={15}/></Link></div>
       <div className="footerGrid">
         <div>
-          <div className="footerBrand">CREAIONX<br/>PROPERTY</div>
+          <div className="footerBrand">CREAIONX<br/><span>PROPERTY</span></div>
           <p>Qualified property demand.<br/>Pakistan, market by market.</p>
         </div>
         <div>
@@ -34,7 +36,7 @@ export function Footer() {
           <Link href="/lead-policy">Lead Policy</Link>
         </div>
       </div>
-      <div className="footerBottom"><span>2026</span><p>© CREAIONX PROPERTY. BETA.</p></div>
+      <div className="footerBottom"><span>2026</span><div><p>© CREAIONX PROPERTY.</p><p>PRIVATE BETA / PAKISTAN</p></div></div>
     </footer>
   );
 }

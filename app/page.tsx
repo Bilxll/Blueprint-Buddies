@@ -2,17 +2,73 @@ import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { CTAButton } from "@/components/CTAButton";
-import { ArrowDownRight, ArrowUpRight, CheckCircle2 } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, CheckCircle2, Home as HomeIcon, KeyRound, TrendingUp, BadgeDollarSign, LockKeyhole, MapPinned, Workflow } from "lucide-react";
 import { CITY_PAGES } from "@/lib/city-pages";
 
-export default function Home(){return <main><Nav/>
-<section className="hero"><div className="blob blobOne"/><div className="blob blobTwo"/><p className="heroTag">PAKISTAN&apos;S PROPERTY DEMAND NETWORK — BETA</p><h1>REAL <span>BUYERS.</span><br/><em>REAL SELLERS.</em></h1><div className="heroBottom"><p>Tell us exactly what you need. We structure the requirement and connect it to participating realtors who work that market.</p><div className="heroCtas"><CTAButton href="/get-started">SUBMIT REQUIREMENT</CTAButton><CTAButton href="/for-realtors" secondary>FOR REALTORS</CTAButton></div></div><div className="scrollCue">EXPLORE <ArrowDownRight/></div></section>
+const MOVES = [
+  { type: "buy", label: "BUY", copy: "Tell us the city, area, property type and budget you want.", icon: HomeIcon },
+  { type: "sell", label: "SELL", copy: "Put your property requirement in front of relevant local realtors.", icon: BadgeDollarSign },
+  { type: "invest", label: "INVEST", copy: "Describe the budget, market and return profile you are targeting.", icon: TrendingUp },
+  { type: "rent", label: "RENT", copy: "Share the location, size and rental requirement that fits your move.", icon: KeyRound },
+] as const;
 
-<section className="homeIntro"><p className="eyebrow">ONE NETWORK. FOUR MOVES.</p><div className="homeIntroGrid"><h2>BUY.<br/>SELL.<br/><span>INVEST.</span><br/>RENT.</h2><div><p>CREAIONX PROPERTY is not another listing wall. Consumers submit a structured property requirement; realtors receive opportunities relevant to the markets they serve.</p><Link className="textArrow" href="/how-it-works">SEE HOW THE SYSTEM WORKS <ArrowUpRight/></Link></div></div></section>
+const QUICK_MARKETS=["Karachi","Lahore","Islamabad","Rawalpindi"];
 
-<section className="campaign"><div className="campaignMain"><p className="eyebrow">FOR REALTORS</p><h2>STOP CHASING<br/>EVERY INQUIRY.<br/><span>ACCESS FIT.</span></h2></div><div className="campaignLinks"><Link href="/for-realtors"><span>01</span><p>Territory-based opportunities</p><ArrowUpRight/></Link><Link href="/for-realtors"><span>02</span><p>Buyer & seller intent upfront</p><ArrowUpRight/></Link><Link href="/for-realtors"><span>03</span><p>Contact details after claim</p><ArrowUpRight/></Link><Link href="/login"><span>04</span><p>Realtor portal & lead CRM</p><ArrowUpRight/></Link></div></section>
+export default function Home(){
+  return <main><Nav/>
+    <section className="hero homeHero">
+      <div className="blob blobOne"/><div className="blob blobTwo"/>
+      <div className="heroGhostWord" aria-hidden="true">DEMAND</div>
+      <div className="heroMeta"><p className="heroTag"><span className="liveDot"/> PAKISTAN&apos;S PROPERTY DEMAND NETWORK</p><span className="betaStamp">BETA / 2026</span></div>
+      <div className="heroIndex" aria-hidden="true">01 / HOME</div>
+      <h1>REAL <span>BUYERS.</span><br/><em>REAL SELLERS.</em></h1>
+      <div className="heroBottom">
+        <div className="heroCopyBlock"><p>Start with the requirement — not another wall of listings. We structure what you need and route it toward participating realtors who actually work that market.</p><div className="heroSignals"><span>NO CONSUMER ACCOUNT</span><span>4 LAUNCH CITIES</span><span>CONTACTS STAY PRIVATE</span></div></div>
+        <div className="heroCtas"><CTAButton href="/get-started">SUBMIT REQUIREMENT</CTAButton><CTAButton href="/for-realtors" secondary>FOR REALTORS</CTAButton></div>
+      </div>
+      <div className="heroQuickStart" aria-label="Quick start">
+        <span>I WANT TO</span>
+        {MOVES.map(move=><Link href={`/get-started?type=${move.type}`} key={move.type}>{move.label}<ArrowUpRight size={14}/></Link>)}
+      </div>
+      <div className="scrollCue">EXPLORE THE NETWORK <ArrowDownRight/></div>
+    </section>
 
-<section className="cities"><div className="sectionIntro"><p className="eyebrow">LAUNCH MARKETS</p><Link className="textArrow" href="/cities">VIEW ALL MARKETS <ArrowUpRight/></Link></div><div>{CITY_PAGES.map(city=><Link className="cityRow" href={`/cities/${city.slug}`} key={city.slug}><span>{city.number}</span><h3>{city.name.toUpperCase()}</h3><CheckCircle2/></Link>)}</div></section>
+    <div className="marketTicker" aria-label="Launch markets"><div><strong>LIVE BETA</strong>{QUICK_MARKETS.map(city=><Link href={`/get-started?city=${city}`} key={city}>{city.toUpperCase()} <span>↗</span></Link>)}<strong>BUY · SELL · INVEST · RENT</strong></div></div>
 
-<section className="finalCta"><div className="blob blobThree"/><p className="eyebrow">PROPERTY IS LOCAL. DEMAND SHOULD BE CLEAR.</p><h2>MAKE YOUR<br/><span>NEXT MOVE.</span></h2><div><CTAButton href="/get-started">SUBMIT REQUIREMENT</CTAButton><CTAButton href="/join-realtor" secondary>JOIN AS REALTOR</CTAButton></div></section>
-<Footer/></main>}
+    <section className="moveSection">
+      <div className="sectionIntro"><div><p className="eyebrow">START HERE</p><h2 className="sectionTitle">ONE BRIEF.<br/><span>FOUR MOVES.</span></h2></div><p className="sectionCopy">Pick the intent that matches what you are doing. The form changes around that move, so realtors receive context instead of a vague inquiry.</p></div>
+      <div className="moveGrid">
+        {MOVES.map(({type,label,copy,icon:Icon},i)=><Link href={`/get-started?type=${type}`} className="moveCard" key={type}><div><span>0{i+1}</span><Icon size={22}/></div><h3>{label}</h3><p>{copy}</p><span className="moveArrow">START <ArrowUpRight/></span></Link>)}
+      </div>
+    </section>
+
+    <section className="proofStrip" aria-label="How the platform works">
+      <div><span>01</span><strong>SUBMIT</strong><p>Structured property requirement.</p></div>
+      <div><span>02</span><strong>QUALIFY</strong><p>Intent and verification kept separate.</p></div>
+      <div><span>03</span><strong>MATCH</strong><p>Territory and specialty based.</p></div>
+      <div><span>04</span><strong>CONNECT</strong><p>Private details unlock after claim.</p></div>
+    </section>
+
+    <section className="differenceSection">
+      <div className="differenceHead"><p className="eyebrow">WHY THIS FEELS DIFFERENT</p><h2>START WITH<br/><span>DEMAND.</span></h2></div>
+      <div className="differenceGrid">
+        <article className="differenceMuted"><span>OLD FLOW</span><h3>LISTINGS → SCROLL → MESSAGE → REPEAT.</h3><p>Consumers bounce between posts, portals and agents while repeating the same requirement again and again.</p></article>
+        <article className="differenceAccent"><span>CREAIONX FLOW</span><h3>REQUIREMENT → MATCH → REALTOR.</h3><p>One structured brief carries the market, budget, property type and timeframe into the matching process.</p></article>
+      </div>
+      <div className="differenceSignals"><div><LockKeyhole/><span><strong>PRIVATE</strong>Contact details stay protected.</span></div><div><MapPinned/><span><strong>LOCAL</strong>Matching begins with territory.</span></div><div><Workflow/><span><strong>TRACKABLE</strong>Realtors manage follow-up in one pipeline.</span></div></div>
+    </section>
+
+    <section className="campaign">
+      <div className="campaignMain"><p className="eyebrow">FOR REALTORS</p><h2>STOP CHASING<br/>EVERY INQUIRY.<br/><span>ACCESS FIT.</span></h2><p className="campaignCopy">Your dashboard is designed around the places and property segments you actually work. See useful context before deciding whether an opportunity deserves your time.</p></div>
+      <div className="campaignLinks"><Link href="/for-realtors"><span>01</span><p>Territory-based opportunities</p><ArrowUpRight/></Link><Link href="/for-realtors"><span>02</span><p>Buyer & seller intent upfront</p><ArrowUpRight/></Link><Link href="/for-realtors"><span>03</span><p>Protected contact details</p><ArrowUpRight/></Link><Link href="/login"><span>04</span><p>Realtor portal & lead CRM</p><ArrowUpRight/></Link></div>
+    </section>
+
+    <section className="cities">
+      <div className="sectionIntro compact"><div><p className="eyebrow">LAUNCH MARKETS</p><h2 className="sectionTitle">LOCAL<br/><span>BY DESIGN.</span></h2></div><Link className="textArrow" href="/cities">VIEW ALL MARKETS <ArrowUpRight/></Link></div>
+      <div>{CITY_PAGES.map(city=><Link className="cityRow" href={`/cities/${city.slug}`} key={city.slug}><span>{city.number}</span><div><h3>{city.name.toUpperCase()}</h3><p>{city.statement}</p></div><CheckCircle2/></Link>)}</div>
+    </section>
+
+    <section className="finalCta"><div className="blob blobThree"/><p className="eyebrow">PROPERTY IS LOCAL. DEMAND SHOULD BE CLEAR.</p><h2>MAKE YOUR<br/><span>NEXT MOVE.</span></h2><div><CTAButton href="/get-started">SUBMIT REQUIREMENT</CTAButton><CTAButton href="/join-realtor" secondary>JOIN AS REALTOR</CTAButton></div></section>
+    <Footer/>
+  </main>
+}

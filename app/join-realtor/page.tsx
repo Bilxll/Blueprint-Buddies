@@ -1,0 +1,2 @@
+import { Nav } from "@/components/Nav";import { RealtorSignup } from "@/components/RealtorSignup";
+export default function Join(){return <main><Nav/><div className="splitPage"><section><p className="eyebrow">REALTOR BETA ACCESS</p><h1>CLAIM<br/>THE RIGHT<br/><span>DEMAND.</span></h1><p className="largeCopy">Create your profile, choose your market and get verified. Beta access is free while we learn which property opportunities create the most value.</p></section><section className="formPanel"><RealtorSignup/></section></div></main>}

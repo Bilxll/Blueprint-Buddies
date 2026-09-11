@@ -1,15 +1,19 @@
 {
   "name": "blueprint-buddies",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
-    "sheets:init": "node scripts/sheets-init.mjs"
+    "sheets:init": "node scripts/sheets-init.mjs",
+    "seed:beta": "node scripts/seed-beta.mjs",
+    "test:smoke": "node scripts/smoke-test.mjs"
   },
   "dependencies": {
     "firebase": "12.17.1",

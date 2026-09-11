@@ -1,8 +1,9 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // The MVP performs business-data reads/writes through authenticated Vercel API routes
-    // using Firebase Admin. Keep client Firestore closed by default.
+    // All application business data is server-side only. Browser clients authenticate
+    // with Firebase Auth, then call protected Next.js API routes. The Admin SDK bypasses
+    // Firestore rules only on trusted server infrastructure.
     match /{document=**} {
       allow read, write: if false;
     }

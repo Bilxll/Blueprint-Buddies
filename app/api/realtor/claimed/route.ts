@@ -10,11 +10,19 @@ const updateSchema=z.object({
   notes:z.string().max(1200).optional()
 }).refine(v=>v.status!==undefined||v.notes!==undefined,{message:"No changes supplied"});
 
+async function verifiedRealtor(db: ReturnType<typeof adminDb>, uid:string){
+  const snap=await db.collection("realtors").where("uid","==",uid).limit(1).get();
+  if(snap.empty) throw new Error("NO_PROFILE");
+  const realtor=snap.docs[0].data();
+  if(realtor.verificationStatus!=="verified"||realtor.status!=="active") throw new Error("NOT_VERIFIED");
+  return realtor;
+}
+
 export async function GET(request: Request) {
   try {
     const user = await requireUser(request);
     if (user.email_verified !== true) return NextResponse.json({ ok: false, error: "Verify your email first." }, { status: 403 });
-    const db = adminDb();
+    const db = adminDb(); await verifiedRealtor(db,user.uid);
     const claims = await db.collection("leadClaims").where("realtorUid", "==", user.uid).limit(100).get();
     const rows = await Promise.all(claims.docs.map(async c => {
       const claim = c.data(); const lead = await db.collection("leads").doc(claim.leadId).get();
@@ -22,7 +30,10 @@ export async function GET(request: Request) {
     }));
     rows.sort((a:any,b:any)=>String(b.claim?.claimedAt||"").localeCompare(String(a.claim?.claimedAt||"")));
     return NextResponse.json({ ok: true, claimed: rows });
-  } catch { return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 }); }
+  } catch (error) {
+    const m=error instanceof Error?error.message:"";
+    return NextResponse.json({ ok: false, error: m==="NOT_VERIFIED"?"Realtor verification is required.":"Unauthorized" }, { status: m==="NOT_VERIFIED"?403:401 });
+  }
 }
 
 export async function PATCH(request: Request){
@@ -30,7 +41,7 @@ export async function PATCH(request: Request){
     const user=await requireUser(request);
     if (user.email_verified !== true) return NextResponse.json({ok:false,error:"Verify your email first."},{status:403});
     const body=updateSchema.parse(await request.json());
-    const db=adminDb();
+    const db=adminDb(); await verifiedRealtor(db,user.uid);
     const ref=db.collection("leadClaims").doc(body.claimId);
     const snap=await ref.get();
     if(!snap.exists) return NextResponse.json({ok:false,error:"Claim not found."},{status:404});
@@ -45,6 +56,7 @@ export async function PATCH(request: Request){
     return NextResponse.json({ok:true});
   }catch(e){
     console.error("claim-update",e);
-    return NextResponse.json({ok:false,error:"Could not update this lead."},{status:400});
+    const m=e instanceof Error?e.message:"";
+    return NextResponse.json({ok:false,error:m==="NOT_VERIFIED"?"Realtor verification is required.":"Could not update this lead."},{status:m==="NOT_VERIFIED"?403:400});
   }
 }

@@ -3,6 +3,7 @@
 import {
   GoogleAuthProvider,
   browserLocalPersistence,
+  browserPopupRedirectResolver,
   setPersistence,
   signInWithPopup,
   type User,
@@ -19,7 +20,11 @@ export async function signInWithGoogleAccount() {
   await prepareAuthPersistence();
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: "select_account" });
-  return signInWithPopup(firebaseAuth, provider);
+  return signInWithPopup(
+    firebaseAuth,
+    provider,
+    browserPopupRedirectResolver
+  );
 }
 
 export async function getSessionDestination(user: User): Promise<{
@@ -41,7 +46,15 @@ export function authErrorMessage(error: unknown, fallback = "Authentication fail
   const code = String((error as { code?: string; message?: string })?.code || (error as { message?: string })?.message || "");
   if (code.includes("popup-closed-by-user")) return "Google sign-in was cancelled.";
   if (code.includes("popup-blocked")) return "Your browser blocked the Google sign-in window. Allow pop-ups and try again.";
-  if (code.includes("operation-not-allowed")) return "This sign-in method is not enabled yet in Firebase Authentication.";
+  if (code.includes("operation-not-allowed")) return "Google sign-in is not enabled in Firebase Authentication yet.";
+  if (code.includes("unauthorized-domain")) {
+    const host = typeof window !== "undefined" ? window.location.hostname : "this domain";
+    return `Google sign-in is blocked for ${host}. Add this exact hostname to Firebase Authentication → Settings → Authorized domains.`;
+  }
+  if (code.includes("invalid-api-key")) return "The Firebase browser API key is missing or incorrect. Check NEXT_PUBLIC_FIREBASE_API_KEY and restart the app.";
+  if (code.includes("auth-domain-config-required") || code.includes("missing-auth-domain")) return "The Firebase auth domain is missing. Check NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN.";
+  if (code.includes("web-storage-unsupported")) return "This browser is blocking the storage Firebase needs for sign-in. Allow site storage/cookies and try again.";
+  if (code.includes("internal-error")) return "Firebase returned an internal authentication error. Retry once, then check the Firebase Authentication provider configuration.";
   if (code.includes("account-exists-with-different-credential")) return "An account already exists with this email using a different sign-in method.";
   if (code.includes("email-already-in-use")) return "An account with this email already exists. Sign in instead.";
   if (code.includes("invalid-email")) return "Enter a valid email address.";

@@ -5,7 +5,7 @@ import { appendSheetRow } from "@/lib/google";
 import { randomUUID } from "node:crypto";
 
 export async function GET(request: Request) {
-  try { await requireAdmin(request); const snap=await adminDb().collection("leads").orderBy("createdAt","desc").limit(200).get(); return NextResponse.json({ok:true,leads:snap.docs.map(d=>d.data())}); }
+  try { await requireAdmin(request); const snap=await adminDb().collection("leads").orderBy("createdAt","desc").limit(300).get(); return NextResponse.json({ok:true,leads:snap.docs.map(d=>d.data())}); }
   catch { return NextResponse.json({ok:false,error:"Forbidden"},{status:403}); }
 }
 export async function PATCH(request: Request) {
@@ -18,7 +18,9 @@ export async function PATCH(request: Request) {
     if(status!==undefined)patch.status=status;if(verificationStatus!==undefined)patch.verificationStatus=verificationStatus;
     if(Number.isFinite(Number(maxClaims)))patch.maxClaims=Math.max(1,Math.min(20,Number(maxClaims)));
     if(Number.isFinite(Number(creditCost)))patch.creditCost=Math.max(1,Math.min(100,Number(creditCost)));
-    const db=adminDb(); await db.collection("leads").doc(leadId).update(patch);
+    const db=adminDb(); const ref=db.collection("leads").doc(leadId); const snap=await ref.get();
+    if(!snap.exists) return NextResponse.json({ok:false,error:"Lead not found"},{status:404});
+    await ref.update(patch);
     const audit={id:`AUD_${randomUUID().replace(/-/g,"").slice(0,16)}`,actorUid:admin.uid,action:"LEAD_UPDATED",entityType:"lead",entityId:leadId,payload:patch,createdAt:new Date().toISOString()};
     await db.collection("auditLogs").doc(audit.id).set(audit); appendSheetRow("AuditLog",audit).catch(console.error);
     return NextResponse.json({ok:true});

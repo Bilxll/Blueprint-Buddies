@@ -4,14 +4,14 @@ import { appendSheetRow } from "@/lib/google";
 import { scoreLead } from "@/lib/lead-scoring";
 import { leadSchema } from "@/lib/validation";
 import { appConfig } from "@/lib/config";
-import { clientIp, leadDedupKey, normalizePakistanPhone, sha256 } from "@/lib/security";
+import { clientIp, leadDedupKey, normalizePhone, sha256 } from "@/lib/security";
 import { leadCreditCost } from "@/lib/billing";
 import { randomUUID } from "node:crypto";
 
 export async function POST(request: Request) {
   try {
     const parsed = leadSchema.parse(await request.json());
-    const body = { ...parsed, phone: normalizePakistanPhone(parsed.phone), email: parsed.email?.trim().toLowerCase() || "" };
+    const body = { ...parsed, phone: normalizePhone(parsed.phone, parsed.country), email: parsed.email?.trim().toLowerCase() || "" };
     const nowDate = new Date();
     const now = nowDate.toISOString();
     const ipHash = sha256(clientIp(request));

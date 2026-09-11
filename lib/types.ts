@@ -4,6 +4,7 @@ export type LeadStatus = "new" | "verified" | "flagged" | "rejected" | "archived
 export type ClaimStatus = "new" | "contacted" | "responded" | "qualified" | "viewing_scheduled" | "negotiating" | "won" | "lost" | "invalid" | "no_response";
 
 export interface LeadInput {
+  country: "PK" | "US" | "UK";
   type: LeadType;
   city: string;
   area: string;

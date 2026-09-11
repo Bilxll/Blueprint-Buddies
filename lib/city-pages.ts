@@ -1,46 +1,34 @@
-import { CITY_AREAS } from "@/lib/market";
+import { getAreas, type CountryCode } from "@/lib/market";
 
 export type CityPage = {
   slug: string;
   name: string;
+  country: CountryCode;
   number: string;
   statement: string;
   intro: string;
   demand: string[];
   realtorCopy: string;
+  hero: string;
 };
 
 export const CITY_PAGES: CityPage[] = [
-  {
-    slug: "karachi", name: "Karachi", number: "01", statement: "A CITY OF MICRO-MARKETS.",
-    intro: "Karachi property demand changes street by street. BLUEPRINT BUDDIES captures the area, budget, property type and timeframe before matching the requirement to participating realtors.",
-    demand: ["Residential buyers", "Property owners ready to sell", "Investment requirements", "Rental demand"],
-    realtorCopy: "Choose the Karachi areas you actually work. Your opportunity feed is designed around those territories instead of showing irrelevant city-wide noise."
-  },
-  {
-    slug: "lahore", name: "Lahore", number: "02", statement: "MATCH DEMAND TO THE RIGHT SOCIETY.",
-    intro: "From DHA to Bahria Town and Gulberg, buyers approach Lahore with very different budgets and objectives. We structure those requirements before they reach realtors.",
-    demand: ["Homes and villas", "Plots and investment", "Apartments", "Commercial property"],
-    realtorCopy: "Realtors define their Lahore territories and specialties so the platform can prioritize opportunities that fit the markets they understand."
-  },
-  {
-    slug: "islamabad", name: "Islamabad", number: "03", statement: "CLEAR INTENT. LOCAL EXPERTISE.",
-    intro: "Islamabad combines sectors, gated communities and investment corridors. BLUEPRINT BUDDIES turns vague inquiries into structured property requirements.",
-    demand: ["Sector-based buyers", "Bahria & DHA demand", "Investment property", "Seller requirements"],
-    realtorCopy: "Instead of competing for every inquiry, participating realtors can focus on the sectors and communities where they have real inventory and expertise."
-  },
-  {
-    slug: "rawalpindi", name: "Rawalpindi", number: "04", statement: "ONE REQUIREMENT. THE RIGHT MARKET.",
-    intro: "Rawalpindi demand spans established neighborhoods, housing societies and fast-moving investment areas. We capture what the customer actually wants before matching begins.",
-    demand: ["Family homes", "Housing society demand", "Plots", "Rental requirements"],
-    realtorCopy: "Realtors can select Rawalpindi territories and receive opportunities based on location, property type and buyer intent."
-  },
+  { slug:"karachi", name:"Karachi", country:"PK", number:"01", statement:"A CITY OF MICRO-MARKETS.", intro:"Karachi property demand changes street by street. BLUEPRINT BUDDIES captures the area, budget, property type and timeframe before matching the requirement to participating realtors.", demand:["Residential buyers","Property owners ready to sell","Investment requirements","Rental demand"], realtorCopy:"Choose the Karachi areas you actually work. Your opportunity feed is designed around those territories instead of showing irrelevant city-wide noise.", hero:"/images/heroes/karachi.webp" },
+  { slug:"lahore", name:"Lahore", country:"PK", number:"02", statement:"MATCH DEMAND TO THE RIGHT SOCIETY.", intro:"From DHA to Bahria Town and Gulberg, buyers approach Lahore with different budgets and objectives. We structure those requirements before they reach realtors.", demand:["Homes and villas","Plots and investment","Apartments","Commercial property"], realtorCopy:"Realtors define their Lahore territories and specialties so the platform can prioritize opportunities that fit the markets they understand.", hero:"/images/heroes/lahore.webp" },
+  { slug:"islamabad", name:"Islamabad", country:"PK", number:"03", statement:"CLEAR INTENT. LOCAL EXPERTISE.", intro:"Islamabad combines sectors, gated communities and investment corridors. BLUEPRINT BUDDIES turns vague inquiries into structured property requirements.", demand:["Sector-based buyers","Bahria & DHA demand","Investment property","Seller requirements"], realtorCopy:"Participating realtors can focus on the sectors and communities where they have real inventory and expertise.", hero:"/images/heroes/islamabad.webp" },
+  { slug:"rawalpindi", name:"Rawalpindi", country:"PK", number:"04", statement:"ONE REQUIREMENT. THE RIGHT MARKET.", intro:"Rawalpindi demand spans established neighborhoods, housing societies and fast-moving investment areas. We capture what the customer actually wants before matching begins.", demand:["Family homes","Housing society demand","Plots","Rental requirements"], realtorCopy:"Realtors can select Rawalpindi territories and receive opportunities based on location, property type and buyer intent.", hero:"/images/heroes/rawalpindi.webp" },
+
+  { slug:"new-york", name:"New York", country:"US", number:"01", statement:"BOROUGH BY BOROUGH.", intro:"New York demand changes block by block. BLUEPRINT BUDDIES structures location, budget, property type and timing before matching opportunities to participating local agents.", demand:["Urban buyers","Home sellers","Investment property","Rental demand"], realtorCopy:"Choose the boroughs and neighborhoods you actually serve so your feed stays focused on relevant New York opportunities.", hero:"/images/heroes/cities.webp" },
+  { slug:"los-angeles", name:"Los Angeles", country:"US", number:"02", statement:"LOCAL FIT ACROSS A HUGE MARKET.", intro:"Los Angeles combines luxury enclaves, dense urban districts and suburban communities. We capture the customer brief before matching begins.", demand:["Single-family homes","Condos","Luxury property","Rental demand"], realtorCopy:"Set the LA neighborhoods and property segments you know best and receive opportunities aligned to that territory.", hero:"/images/heroes/cities.webp" },
+  { slug:"miami", name:"Miami", country:"US", number:"03", statement:"LIFESTYLE, INVESTMENT, LOCATION.", intro:"Miami demand often blends lifestyle, investment and relocation. BLUEPRINT BUDDIES makes those priorities explicit before an agent spends time on the lead.", demand:["Condos","Waterfront homes","Investment buyers","Relocation and rentals"], realtorCopy:"Define your Miami territory and specialties so matched demand reflects the communities and property classes you actually work.", hero:"/images/heroes/cities.webp" },
+  { slug:"houston", name:"Houston", country:"US", number:"04", statement:"NEIGHBORHOOD-LEVEL DEMAND.", intro:"Houston spans distinct neighborhoods and price bands. Our structured brief helps agents understand budget, property type and timeframe before claiming an opportunity.", demand:["Family homes","Luxury residential","Investment property","Rentals"], realtorCopy:"Select the Houston areas you actively serve and keep marketplace discovery relevant to your real operating territory.", hero:"/images/heroes/cities.webp" },
+
+  { slug:"london", name:"London", country:"UK", number:"01", statement:"BOROUGH, BUDGET, INTENT.", intro:"London property demand varies sharply by borough and neighborhood. BLUEPRINT BUDDIES structures the requirement before connecting it to participating estate agents.", demand:["Residential buyers","Property sellers","Investment demand","Rental demand"], realtorCopy:"Choose the London areas you genuinely cover so opportunities are matched to your local market and property focus.", hero:"/images/heroes/cities.webp" },
+  { slug:"manchester", name:"Manchester", country:"UK", number:"02", statement:"CITY-CENTRE TO SUBURBS.", intro:"Manchester combines city-centre apartments, established suburbs and investment-led demand. We capture the brief before matching it to an agent.", demand:["Apartments","Family homes","Investment buyers","Rentals"], realtorCopy:"Set your Manchester territories and specialties to keep marketplace opportunities aligned with where you actually operate.", hero:"/images/heroes/cities.webp" },
+  { slug:"birmingham", name:"Birmingham", country:"UK", number:"03", statement:"STRUCTURED DEMAND, LOCAL MATCHING.", intro:"Birmingham demand spans central regeneration, established neighborhoods and commuter markets. BLUEPRINT BUDDIES turns that intent into a structured requirement.", demand:["City apartments","Family homes","Investment property","Rental demand"], realtorCopy:"Select the Birmingham neighborhoods you serve and receive opportunities filtered by territory, property type and intent.", hero:"/images/heroes/cities.webp" },
+  { slug:"leeds", name:"Leeds", country:"UK", number:"04", statement:"THE RIGHT BRIEF FOR THE RIGHT AREA.", intro:"Leeds mixes city-centre, student, family and commuter demand. We structure those requirements before matching them to participating agents.", demand:["City-centre property","Family homes","Investment demand","Rentals"], realtorCopy:"Choose the Leeds areas you know well so your opportunity feed stays useful and locally relevant.", hero:"/images/heroes/cities.webp" },
 ];
 
-export function getCityPage(slug: string) {
-  return CITY_PAGES.find(city => city.slug === slug);
-}
-
-export function getCityAreas(cityName: string) {
-  return CITY_AREAS[cityName] || [];
-}
+export function getCityPage(slug: string) { return CITY_PAGES.find(city => city.slug === slug); }
+export function getCityAreas(cityName: string, country?: CountryCode) { const page = CITY_PAGES.find(c => c.name === cityName && (!country || c.country === country)); return getAreas(page?.country || country || "PK", cityName); }
+export function getCityPagesByCountry(country: CountryCode) { return CITY_PAGES.filter(city => city.country === country); }

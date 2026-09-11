@@ -1,14 +1,17 @@
 export const appConfig = {
   appName: process.env.NEXT_PUBLIC_APP_NAME || "BLUEPRINT BUDDIES",
   appUrl: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+  supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "support@blueprintbuddies.pk",
   betaMode: String(process.env.NEXT_PUBLIC_BETA_MODE ?? "true").toLowerCase() === "true",
-  billingMode: process.env.BILLING_MODE || "test_credits",
-  allowTestPurchases: String(process.env.ALLOW_TEST_PURCHASES ?? "true").toLowerCase() === "true",
+  billingMode: process.env.BILLING_MODE || "beta_credits",
+  allowTestPurchases: String(process.env.ALLOW_TEST_PURCHASES ?? "false").toLowerCase() === "true",
   defaultMaxClaims: Math.max(1, Number(process.env.DEFAULT_MAX_CLAIMS || 3)),
-  defaultBetaCredits: Math.max(0, Number(process.env.DEFAULT_BETA_CREDITS || 20)),
+  defaultBetaCredits: Math.max(0, Number(process.env.DEFAULT_BETA_CREDITS || 0)),
   defaultLeadCreditCost: Math.max(1, Number(process.env.DEFAULT_LEAD_CREDIT_COST || 1)),
   leadRateLimitCount: Math.max(1, Number(process.env.LEAD_RATE_LIMIT_COUNT || 5)),
   leadRateLimitWindowMs: Math.max(60_000, Number(process.env.LEAD_RATE_LIMIT_WINDOW_MS || 600_000)),
+  trackRateLimitCount: Math.max(1, Number(process.env.TRACK_RATE_LIMIT_COUNT || 15)),
+  uploadRateLimitCount: Math.max(1, Number(process.env.UPLOAD_RATE_LIMIT_COUNT || 10)),
 };
 
 export function publicFirebaseConfigured() {

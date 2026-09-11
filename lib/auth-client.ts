@@ -20,11 +20,7 @@ export async function signInWithGoogleAccount() {
   await prepareAuthPersistence();
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({ prompt: "select_account" });
-  return signInWithPopup(
-    firebaseAuth,
-    provider,
-    browserPopupRedirectResolver
-  );
+  return signInWithPopup(firebaseAuth, provider, browserPopupRedirectResolver);
 }
 
 export async function getSessionDestination(user: User): Promise<{

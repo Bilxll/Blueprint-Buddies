@@ -3,24 +3,34 @@
 import { useEffect,useMemo,useState } from "react";
 import { onAuthStateChanged, sendEmailVerification, signOut } from "firebase/auth";
 import { firebaseAuth } from "@/lib/firebase-client";
-import { ArrowUpRight, BriefcaseBusiness, CheckCircle2, Coins, Copy, Flame, LogOut, MapPin, MessageCircle, RefreshCw, Search, SlidersHorizontal, UserRoundCheck, X } from "lucide-react";
+import { ArrowUpRight, BriefcaseBusiness, CheckCircle2, Coins, Copy, Flame, LogOut, MapPin, MessageCircle, RefreshCw, Search, Settings, SlidersHorizontal, UserRoundCheck, X } from "lucide-react";
 import { BrutalistSelect } from "@/components/BrutalistSelect";
+import { formatMoney, getMarket } from "@/lib/market";
 
 const CRM_STAGES=[
   ["new","NEW"],["contacted","CONTACTED"],["responded","RESPONDED"],["qualified","QUALIFIED"],["viewing_scheduled","VIEWING"],["negotiating","NEGOTIATING"],["won","WON"],["lost","LOST"],["invalid","INVALID"],["no_response","NO RESPONSE"]
 ] as const;
 
 const TEMP_WEIGHT:Record<string,number>={hot:0,warm:1,future:2,needs_verification:3};
-function money(n:number){if(!n)return "Open";return `PKR ${new Intl.NumberFormat("en-PK").format(n)}`}
-function moneyRange(l:any){if(l.type==="sell"&&l.expectedPrice)return money(l.expectedPrice);if(l.budgetMin&&l.budgetMax)return `${money(l.budgetMin)} — ${money(l.budgetMax)}`;return money(l.budgetMax||l.budgetMin)}
+function moneyRange(l:any){if(l.type==="sell"&&l.expectedPrice)return formatMoney(l.expectedPrice,l.country||"PK");if(l.budgetMin&&l.budgetMax)return `${formatMoney(l.budgetMin,l.country||"PK")} — ${formatMoney(l.budgetMax,l.country||"PK")}`;return formatMoney(l.budgetMax||l.budgetMin,l.country||"PK")}
 function daysAgo(value?:string){if(!value)return "";const diff=Math.max(0,Date.now()-new Date(value).getTime());const d=Math.floor(diff/86400000);if(d===0)return "TODAY";if(d===1)return "1 DAY AGO";return `${d} DAYS AGO`}
-function whatsappHref(phone:string){let n=String(phone||"").replace(/\D/g,"");if(n.startsWith("0"))n=`92${n.slice(1)}`;return `https://wa.me/${n}`}
+function whatsappHref(phone:string){const n=String(phone||"").replace(/\D/g,"");return `https://wa.me/${n}`}
+function leadAccessRemaining(realtor:any){
+  if(!realtor)return 0;
+  const cap=Math.max(0,Number(realtor.planLeadCap||0));
+  const used=Math.max(0,Number(realtor.planLeadsUsed||0));
+  const periodEnd=realtor.planPeriodEnd?new Date(realtor.planPeriodEnd).getTime():0;
+  const subscriptionActive=String(realtor.subscriptionStatus||"").startsWith("active")&&cap>0&&(!periodEnd||periodEnd>Date.now());
+  const subscriptionLeft=subscriptionActive?Math.max(0,cap-used):0;
+  return subscriptionLeft+Math.max(0,Number(realtor.paygLeadBalance||0))+Math.max(0,Number(realtor.creditsBalance||0));
+}
 
 export function RealtorDashboard(){
   const[loading,setLoading]=useState(true);
   const[leads,setLeads]=useState<any[]>([]);
   const[claimed,setClaimed]=useState<any[]>([]);
   const[pending,setPending]=useState(false);
+  const[suspended,setSuspended]=useState(false);
   const[emailPending,setEmailPending]=useState(false);
   const[notice,setNotice]=useState("");
   const[realtor,setRealtor]=useState<any>(null);
@@ -40,7 +50,7 @@ export function RealtorDashboard(){
       const [a,b]=await Promise.all([fetch("/api/realtor/leads",{headers:{authorization:`Bearer ${t}`}}),fetch("/api/realtor/claimed",{headers:{authorization:`Bearer ${t}`}})]);
       const aj=await a.json();const bj=await b.json();
       if(!a.ok) throw new Error(aj.error||"Could not load your marketplace.");
-      setEmailPending(!!aj.pendingEmailVerification);setPending(!!aj.pendingVerification);setRealtor(aj.realtor||null);setLeads(aj.leads||[]);setClaimed(bj.claimed||[]);
+      setEmailPending(!!aj.pendingEmailVerification);setPending(!!aj.pendingVerification);setSuspended(!!aj.suspended);setRealtor(aj.realtor||null);setLeads(aj.leads||[]);setClaimed(bj.claimed||[]);
     }catch{location.href="/login"}finally{setLoading(false)}
   }
   useEffect(()=>onAuthStateChanged(firebaseAuth,u=>{if(!u)location.href="/login";else load()}),[]);
@@ -92,15 +102,15 @@ export function RealtorDashboard(){
   }
 
   return <div className="portalShell">
-    <header className="portalTopbar"><a className="portalBrand" href="/">BLUEPRINT <span>BUDDIES</span></a><div><span className="portalIdentity"><UserRoundCheck size={15}/>{realtor?.fullName||firebaseAuth.currentUser?.email||"REALTOR"}</span><button onClick={()=>signOut(firebaseAuth).then(()=>location.href="/")}><LogOut size={16}/> LOG OUT</button></div></header>
+    <header className="portalTopbar"><a className="portalBrand" href="/">BLUEPRINT <span>BUDDIES</span></a><div><span className="portalIdentity"><UserRoundCheck size={15}/>{realtor?.fullName||firebaseAuth.currentUser?.email||"REALTOR"}</span><a className="portalBackLink" href="/realtor/settings"><Settings size={15}/> SETTINGS</a><button onClick={()=>signOut(firebaseAuth).then(()=>location.href="/")}><LogOut size={16}/> LOG OUT</button></div></header>
 
     <main className="dashboardShell">
       <header className="dashHeader"><div><p className="eyebrow">REALTOR PORTAL / BETA</p><h1>YOUR<br/><span>MARKET.</span></h1></div><div className="dashHeaderAside"><p>Qualified property opportunities matched to your approved territories.</p><button onClick={load}><RefreshCw size={16}/> REFRESH DATA</button></div></header>
 
-      {realtor&&<section className="accountContext" aria-label="Realtor access summary"><div><span>ACCESS</span><strong>{emailPending?"EMAIL VERIFY":pending?"PENDING":"BETA ACTIVE"}</strong></div><div><span>CITY</span><strong>{realtor.city||"—"}</strong></div><div className="accountContextWide"><span>TERRITORIES</span><strong>{(realtor.areas||[]).length?(realtor.areas||[]).join(" · "):"NOT SET"}</strong></div><div><span>CREDITS</span><strong>{realtor.creditsBalance??0}</strong></div><div><span>PLAN</span><strong>{String(realtor.planId||"beta").toUpperCase()}</strong></div><a className="accountContextBilling" href="/realtor/billing"><Coins size={16}/><span>TEST BILLING</span><strong>MANAGE →</strong></a></section>}
+      {realtor&&<section className="accountContext" aria-label="Realtor access summary"><div><span>ACCESS</span><strong>{emailPending?"EMAIL VERIFY":suspended?"SUSPENDED":pending?"PENDING":"ACTIVE"}</strong></div><div><span>MARKET</span><strong>{getMarket(realtor.country||"PK").shortName} · {realtor.city||"—"}</strong></div><div className="accountContextWide"><span>TERRITORIES</span><strong>{(realtor.areas||[]).length?(realtor.areas||[]).join(" · "):"NOT SET"}</strong></div><div><span>VERIFIED LEADS LEFT</span><strong>{leadAccessRemaining(realtor)}</strong></div><div><span>PLAN</span><strong>{String(realtor.planId||"none").replace("pk-","").toUpperCase()}</strong></div><a className="accountContextBilling" href="/realtor/billing"><Coins size={16}/><span>PRICING</span><strong>MANAGE →</strong></a></section>}
 
       {notice&&<div className="notice" role="status">{notice}<button onClick={()=>setNotice("")} aria-label="Dismiss notification"><X size={16}/></button></div>}
-      {loading?<div className="portalLoading"><span/><p>Loading your territory…</p></div>:emailPending?<div className="pendingBox"><p className="eyebrow">EMAIL VERIFICATION REQUIRED</p><h2>VERIFY YOUR<br/><span>EMAIL ADDRESS.</span></h2><p>We protect consumer contact information behind verified realtor accounts. Open the verification link sent to your email, then refresh your portal.</p><div className="pendingActions"><button className="nextBtn" onClick={resendVerification}>RESEND EMAIL</button><button className="backBtn" onClick={load}>I VERIFIED — REFRESH</button></div></div>:pending?<div className="pendingBox"><p className="eyebrow">REALTOR REVIEW PENDING</p><h2>YOUR MARKETPLACE<br/><span>ACCESS IS LOCKED.</span></h2><p>Your email is verified. We now review the realtor profile before exposing property opportunities or consumer contact information. Return to this portal after approval.</p></div>:<>
+      {loading?<div className="portalLoading"><span/><p>Loading your territory…</p></div>:emailPending?<div className="pendingBox"><p className="eyebrow">EMAIL VERIFICATION REQUIRED</p><h2>VERIFY YOUR<br/><span>EMAIL ADDRESS.</span></h2><p>We protect consumer contact information behind verified realtor accounts. Open the verification link sent to your email, then refresh your portal.</p><div className="pendingActions"><button className="nextBtn" onClick={resendVerification}>RESEND EMAIL</button><button className="backBtn" onClick={load}>I VERIFIED — REFRESH</button></div></div>:suspended?<div className="pendingBox"><p className="eyebrow">ACCOUNT SUSPENDED</p><h2>MARKETPLACE<br/><span>ACCESS IS PAUSED.</span></h2><p>Your account is currently suspended. Lead discovery, claiming and protected contact access are disabled. Contact support if you believe this is a mistake.</p><a className="secondaryLink" href="/contact">CONTACT SUPPORT →</a></div>:pending?<div className="pendingBox"><p className="eyebrow">REALTOR REVIEW PENDING</p><h2>YOUR MARKETPLACE<br/><span>ACCESS IS LOCKED.</span></h2><p>Your email is verified. We now review the realtor profile before exposing property opportunities or consumer contact information. Return to this portal after approval.</p></div>:<>
         <section className="dashboardStats">
           <article><span>AVAILABLE</span><strong>{leads.length}</strong><p>matching opportunities</p></article>
           <article><span>HOT NOW</span><strong>{hot}</strong><p>high-intent opportunities</p></article>
@@ -113,7 +123,7 @@ export function RealtorDashboard(){
         {tab==="discover"&&<section className="dashboardSection">
           <div className="sectionLine"><div><p className="eyebrow">MATCHED TO YOUR TERRITORY</p><h2>AVAILABLE</h2></div><span>{filtered.length} SHOWN</span></div>
           <div className="leadToolbar"><label><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search area or property type"/></label><div><SlidersHorizontal size={16}/><BrutalistSelect variant="compact" ariaLabel="Lead type" value={type} onChange={setType} options={[{value:"all",label:"ALL TYPES"},{value:"buy",label:"BUYERS"},{value:"sell",label:"SELLERS"},{value:"invest",label:"INVESTORS"},{value:"rent",label:"RENTALS"}]}/><BrutalistSelect variant="compact" ariaLabel="Lead intent" value={temp} onChange={setTemp} options={[{value:"all",label:"ALL INTENT"},{value:"hot",label:"HOT"},{value:"warm",label:"WARM"},{value:"future",label:"FUTURE"},{value:"needs_verification",label:"NEEDS VERIFY"}]}/><BrutalistSelect variant="compact" ariaLabel="Sort opportunities" value={sort} onChange={setSort} options={[{value:"recommended",label:"HOT FIRST"},{value:"newest",label:"NEWEST"},{value:"least_claimed",label:"LEAST CLAIMED"}]}/>{hasFilters&&<button className="filterReset" onClick={()=>{setType("all");setTemp("all");setSort("recommended");setQuery("")}}>RESET</button>}</div></div>
-          <div className="leadGrid">{filtered.map(l=>{const remaining=Math.max(0,(l.maxClaims||3)-(l.claimCount||0));return <article className="leadCard" key={l.id}><div className="leadTop"><span className={`temp ${l.temperature}`}><Flame size={14}/>{l.temperature.replace("_"," ")}</span><span>{daysAgo(l.createdAt)}</span></div><div className="leadMatchTag">YOUR TERRITORY · {l.area}</div><div className="leadLocation"><span>{l.type.toUpperCase()}</span><h3>{l.area}<br/><b>{l.city}</b></h3></div><div className="leadMeta"><p><MapPin size={15}/>{l.propertyType} · {l.size||"Size open"}</p><p className="leadBudget">{moneyRange(l)}</p><p>{l.paymentMode||"Payment open"} · {l.timeframe}</p><p className={l.verificationStatus==="verified"?"verifiedText":"mutedText"}>{l.verificationStatus==="verified"?"✓ CONTACT VERIFIED":"CONTACT NOT YET VERIFIED"}</p></div><div className="claimAvailability"><span>{remaining}</span> claim slot{remaining===1?"":"s"} remaining</div><button disabled={busyId===l.id||remaining===0||Number(realtor?.creditsBalance||0)<Number(l.creditCost||1)} className="claimBtn" onClick={()=>claim(l.id)}>{busyId===l.id?"CLAIMING…":Number(realtor?.creditsBalance||0)<Number(l.creditCost||1)?"MORE CREDITS REQUIRED":`CLAIM · ${l.creditCost||1} CREDIT${Number(l.creditCost||1)===1?"":"S"}`}<ArrowUpRight size={16}/></button></article>})}</div>
+          <div className="leadGrid">{filtered.map(l=>{const remaining=Math.max(0,(l.maxClaims||3)-(l.claimCount||0));return <article className="leadCard" key={l.id}><div className="leadTop"><span className={`temp ${l.temperature}`}><Flame size={14}/>{l.temperature.replace("_"," ")}</span><span>{daysAgo(l.createdAt)}</span></div><div className="leadMatchTag">YOUR TERRITORY · {l.area}</div><div className="leadLocation"><span>{l.type.toUpperCase()}</span><h3>{l.area}<br/><b>{l.city}</b></h3></div><div className="leadMeta"><p><MapPin size={15}/>{l.propertyType} · {l.size||"Size open"}</p><p className="leadBudget">{moneyRange(l)}</p><p>{l.paymentMode||"Payment open"} · {l.timeframe}</p><p className={l.verificationStatus==="verified"?"verifiedText":"mutedText"}>{l.verificationStatus==="verified"?"✓ CONTACT VERIFIED":"CONTACT NOT YET VERIFIED"}</p></div><div className="claimAvailability"><span>{remaining}</span> claim slot{remaining===1?"":"s"} remaining</div><button disabled={busyId===l.id||remaining===0||leadAccessRemaining(realtor)<1} className="claimBtn" onClick={()=>claim(l.id)}>{busyId===l.id?"CLAIMING…":leadAccessRemaining(realtor)<1?"PLAN OR LEAD PURCHASE REQUIRED":"CLAIM VERIFIED LEAD"}<ArrowUpRight size={16}/></button></article>})}</div>
           {!filtered.length&&<div className="emptyBox"><strong>NO MATCHES IN THIS VIEW.</strong><p>{hasFilters?"Try resetting filters to see everything currently available in your territory.":"There are no open opportunities in your approved territory right now. New matching demand will appear here."}</p>{hasFilters&&<button className="textButton" onClick={()=>{setType("all");setTemp("all");setSort("recommended");setQuery("")}}>RESET FILTERS →</button>}</div>}
         </section>}
 

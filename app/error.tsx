@@ -1,0 +1,2 @@
+"use client";
+export default function ErrorPage({reset}:{error:Error&{digest?:string};reset:()=>void}){return <main className="errorState"><p className="eyebrow">SOMETHING WENT WRONG</p><h1>THE PAGE<br/><span>HIT A PROBLEM.</span></h1><p>Try the request again. If the problem continues, contact support.</p><div><button className="nextBtn" onClick={reset}>TRY AGAIN</button><a className="secondaryLink" href="/contact">CONTACT SUPPORT →</a></div></main>}

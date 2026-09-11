@@ -1,0 +1,2 @@
+"use client";
+export default function GlobalError({reset}:{error:Error&{digest?:string};reset:()=>void}){return <html><body><main className="errorState"><p className="eyebrow">BLUEPRINT BUDDIES</p><h1>WE HIT<br/><span>A SYSTEM ERROR.</span></h1><p>Reload the experience. No password or payment information is stored by this screen.</p><button className="nextBtn" onClick={reset}>RELOAD</button></main></body></html>}
